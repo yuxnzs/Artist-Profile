@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:artist_profile/components/genre_tag.dart';
 import 'package:artist_profile/models/genres.dart';
 
-class GenreTagRow extends StatelessWidget {
+class GenreRow extends StatelessWidget {
   // Pass to genre tag component to handle onTap
   final Function(String) onGenreSelected;
   final String selectedGenre;
 
-  const GenreTagRow({
+  const GenreRow({
     super.key,
     required this.onGenreSelected,
     required this.selectedGenre,
