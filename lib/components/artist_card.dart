@@ -59,6 +59,7 @@ class ArtistCard extends StatelessWidget {
                 NumberFormat.compact().format(artist.followers),
                 style: const TextStyle(
                   fontSize: 14,
+                  fontWeight: FontWeight.bold,
                   color: Colors.grey,
                 ),
               ),
