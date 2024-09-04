@@ -1,7 +1,10 @@
 *.cpp linguist-vendored
+*.cc linguist-vendored
 *.h linguist-vendored
 *.hpp linguist-vendored
 *.cmake linguist-vendored
+CMakeLists.txt linguist-vendored
 *.swift linguist-vendored
+*.kt linguist-vendored
 *.c linguist-vendored
 *.html linguist-vendored
