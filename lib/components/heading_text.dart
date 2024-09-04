@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class HeadingText extends StatelessWidget {
   final String text;
+  final double fontSize;
 
-  const HeadingText({super.key, required this.text});
+  // Only the homepage title text should be 25px, other headings should be 22px by default
+  const HeadingText({super.key, required this.text, this.fontSize = 22});
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +13,8 @@ class HeadingText extends StatelessWidget {
       children: [
         Text(
           text,
-          style: const TextStyle(
-            fontSize: 25,
+          style: TextStyle(
+            fontSize: fontSize,
             fontWeight: FontWeight.bold,
           ),
         ),
