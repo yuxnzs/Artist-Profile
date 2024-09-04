@@ -13,7 +13,7 @@ class ArtistRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 190,
+      height: 180,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
