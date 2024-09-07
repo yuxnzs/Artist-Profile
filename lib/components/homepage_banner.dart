@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/custom_colors.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:artist_profile/components/artist_image_placeholder.dart';
+import 'package:artist_profile/components/artist_image.dart';
 
 class HomepageBanner extends StatelessWidget {
   const HomepageBanner({super.key});
@@ -63,17 +62,9 @@ class HomepageBanner extends StatelessWidget {
             const SizedBox(width: 10),
 
             // Artist Image
-            ClipOval(
-              child: CachedNetworkImage(
+            const ArtistImage(
                 imageUrl:
-                    "https://i.scdn.co/image/ab67616100005174859e4c14fa59296c8649e0e4",
-                width: 100,
-                height: 100,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => const ArtistImagePlaceholder(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-            ),
+                    "https://i.scdn.co/image/ab67616100005174859e4c14fa59296c8649e0e4"),
           ],
         ),
       ),

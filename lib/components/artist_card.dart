@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:artist_profile/models/artist.dart';
 import 'package:artist_profile/utility/custom_colors.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:artist_profile/components/artist_image_placeholder.dart';
+import 'package:artist_profile/components/artist_image.dart';
 
 class ArtistCard extends StatelessWidget {
   final Artist artist;
@@ -24,16 +23,7 @@ class ArtistCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Artist Image
-          ClipOval(
-            child: CachedNetworkImage(
-              imageUrl: artist.image,
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => const ArtistImagePlaceholder(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ),
-          ),
+          ArtistImage(imageUrl: artist.image),
           const SizedBox(height: 10),
 
           // Artist Name
