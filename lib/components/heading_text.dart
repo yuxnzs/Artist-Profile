@@ -11,11 +11,14 @@ class HeadingText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
+        Container(
+          margin: const EdgeInsets.only(left: 20),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],

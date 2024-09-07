@@ -9,6 +9,7 @@ class HomepageBanner extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 150,
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: CustomColors.background,
         borderRadius: BorderRadius.circular(20),

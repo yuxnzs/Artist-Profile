@@ -13,34 +13,24 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                child: const Column(
-                  children: [
-                    // Header Text
-                    HeadingText(text: "Artists Profile", fontSize: 25),
-                    SizedBox(height: 15),
+              // Header Text
+              HeadingText(text: "Artists Profile", fontSize: 25),
+              SizedBox(height: 15),
 
-                    // Banner
-                    HomepageBanner(),
-                    SizedBox(height: 15),
-
-                    // Genres Section
-                    HeadingText(text: "Recommended Genres"),
-                    SizedBox(height: 15),
-                  ],
-                ),
-              ),
+              // Banner
+              HomepageBanner(),
+              SizedBox(height: 15),
 
               // Recommended Genres Section
-              // No margin, separate from the container above
-              const GenreSection(),
+              HeadingText(text: "Recommended Genres"),
+              SizedBox(height: 15),
+              GenreSection(),
             ],
           ),
         ),
