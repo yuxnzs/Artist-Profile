@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/custom_colors.dart';
 import 'package:artist_profile/components/loading_placeholder.dart';
+import 'package:artist_profile/components/artist_image_placeholder.dart';
 
 class LoadingArtistCard extends StatelessWidget {
   const LoadingArtistCard({super.key});
@@ -19,13 +20,7 @@ class LoadingArtistCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Artist Image
-          const ClipOval(
-            child: SizedBox(
-              width: 100,
-              height: 100,
-              child: LoadingPlaceholder(),
-            ),
-          ),
+          const ArtistImagePlaceholder(),
           const SizedBox(height: 10),
 
           // Artist Name
