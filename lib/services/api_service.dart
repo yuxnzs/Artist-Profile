@@ -9,7 +9,7 @@ class APIService with ChangeNotifier {
   List<Artist> recommendedArtists = [];
   List<Artist> globalTopArtists = [];
   List<Artist> taiwanTopArtists = [];
-  List<Artist> usTopArtists = [];
+  List<Artist> usaTopArtists = [];
 
   // Fetch artists from the API based on the endpoint
   Future<List<Artist>> _fetchArtists(String endpoint) async {
@@ -45,9 +45,9 @@ class APIService with ChangeNotifier {
   Future<void> getGlobalTopArtists() =>
       fetchArtistsForCategory('/spotify-artists/global', globalTopArtists);
 
-  // Fetch US top artists
-  Future<void> getUSTopArtists() =>
-      fetchArtistsForCategory('/spotify-artists/us', usTopArtists);
+  // Fetch USA top artists
+  Future<void> getUSATopArtists() =>
+      fetchArtistsForCategory('/spotify-artists/us', usaTopArtists);
 
   // Fetch Taiwan top artists
   Future<void> getTaiwanTopArtists() =>

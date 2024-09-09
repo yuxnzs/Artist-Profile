@@ -50,8 +50,8 @@ class Homepage extends StatelessWidget {
             const HeadingText(text: "USA Top Artists Today"),
             const SizedBox(height: 15),
             ArtistContent(
-              artists: apiService.usTopArtists,
-              apiFunction: apiService.getUSTopArtists,
+              artists: apiService.usaTopArtists,
+              apiFunction: apiService.getUSATopArtists,
             ),
             const SizedBox(height: 30),
 
