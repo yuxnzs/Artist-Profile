@@ -37,6 +37,15 @@ class Homepage extends StatelessWidget {
             ),
             const SizedBox(height: 30),
 
+            // Taiwan's Top Artists Section
+            const HeadingText(text: "Taiwan Top Artists Today"),
+            const SizedBox(height: 15),
+            ArtistContent(
+              artists: apiService.taiwanTopArtists,
+              apiFunction: apiService.getTaiwanTopArtists,
+            ),
+            const SizedBox(height: 30),
+
             // USA's Top Artists Section
             const HeadingText(text: "USA Top Artists Today"),
             const SizedBox(height: 15),
