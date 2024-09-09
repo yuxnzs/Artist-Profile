@@ -14,17 +14,19 @@ class ArtistRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 180,
-      child: ListView(
+      child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          const SizedBox(width: 20), // Visual spacing
-          ...artists.map((artist) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 25),
-              child: ArtistCard(artist: artist),
-            );
-          }),
-        ],
+        itemCount: artists.length + 1, // +1 for initial spacing
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return const SizedBox(width: 20); // Initial spacing,
+          }
+          final artist = artists[index - 1];
+          return Padding(
+            padding: const EdgeInsets.only(right: 25),
+            child: ArtistCard(artist: artist),
+          );
+        },
       ),
     );
   }
