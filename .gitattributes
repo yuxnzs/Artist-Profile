@@ -8,3 +8,5 @@ CMakeLists.txt linguist-vendored
 *.kt linguist-vendored
 *.c linguist-vendored
 *.html linguist-vendored
+ios/Podfile linguist-vendored
+macos/Podfile linguist-vendored
