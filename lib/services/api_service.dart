@@ -13,17 +13,23 @@ class APIService with ChangeNotifier {
 
   // Fetch artists from the API based on the endpoint
   Future<List<Artist>> _fetchArtists(String endpoint) async {
-    final response = await http.get(Uri.parse('$baseUrl$endpoint'));
+    try {
+      final response = await http.get(Uri.parse('$baseUrl$endpoint'));
 
-    // Check if the response is successful
-    if (response.statusCode == 200) {
-      // Parse the JSON response
-      final List<dynamic> jsonData = jsonDecode(response.body);
+      // Check if the response is successful
+      if (response.statusCode == 200) {
+        // Parse the JSON response
+        final List<dynamic> jsonData = jsonDecode(response.body);
 
-      // Convert each JSON object to an Artist object
-      return jsonData.map((artist) => Artist.fromJson(artist)).toList();
-    } else {
-      throw Exception('Failed to load artists from $endpoint');
+        // Convert each JSON object to an Artist object
+        return jsonData.map((artist) => Artist.fromJson(artist)).toList();
+      } else {
+        throw Exception(
+            'Failed to load artists from $endpoint. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Network error or other exceptions
+      throw Exception('Error fetching artists from $endpoint: $e');
     }
   }
 
