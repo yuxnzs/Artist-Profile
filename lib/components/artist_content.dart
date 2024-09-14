@@ -65,11 +65,11 @@ class _ArtistContentState extends State<ArtistContent> {
     });
   }
 
-  void _getRecommendations(Future<void> Function() apiFunction) {
+  void _fetchArtists(Future<void> Function() apiFunction) {
     apiFunction().then((_) {
       setState(() {
         widget.toggleLoading();
-        // If recommendations loaded successfully, cancel the timer
+        // If artists loaded successfully, cancel the timer
         _timer?.cancel();
       });
     });
@@ -81,9 +81,9 @@ class _ArtistContentState extends State<ArtistContent> {
       widget.toggleError();
     });
 
-    // Reset the timer and get recommendations
+    // Reset the timer and get artists
     _startTimer();
-    _getRecommendations(widget.apiFunction);
+    _fetchArtists(widget.apiFunction);
   }
 
   @override
