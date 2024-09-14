@@ -62,65 +62,69 @@ class _HomepageState extends State<Homepage> {
       body: SafeArea(
         top: true,
         bottom: false,
-        child: ListView(
-          children: [
-            // Header Text
-            const SizedBox(height: 20),
-            const HeadingText(text: "Artists Profile", fontSize: 25),
-            const SizedBox(height: 15),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Header Text
+              const SizedBox(height: 20),
+              const HeadingText(text: "Artists Profile", fontSize: 25),
+              const SizedBox(height: 15),
 
-            // Banner
-            const HomepageBanner(),
-            const SizedBox(height: 30),
+              // Banner
+              const HomepageBanner(),
+              const SizedBox(height: 30),
 
-            // Global Top Artists Section
-            const HeadingText(text: "Global Top Artists Today"),
-            const SizedBox(height: 15),
-            ArtistContent(
-              artists: apiService.globalTopArtists,
-              apiFunction: apiService.getGlobalTopArtists,
-              isLoading: displayManager.isGlobalLoading,
-              toggleLoading: () =>
-                  displayManager.toggleLoading(category: 'global'),
-              isError: displayManager.isGlobalError,
-              toggleError: () => displayManager.toggleError(category: 'global'),
-            ),
-            const SizedBox(height: 30),
+              // Global Top Artists Section
+              const HeadingText(text: "Global Top Artists Today"),
+              const SizedBox(height: 15),
+              ArtistContent(
+                artists: apiService.globalTopArtists,
+                apiFunction: apiService.getGlobalTopArtists,
+                isLoading: displayManager.isGlobalLoading,
+                toggleLoading: () =>
+                    displayManager.toggleLoading(category: 'global'),
+                isError: displayManager.isGlobalError,
+                toggleError: () =>
+                    displayManager.toggleError(category: 'global'),
+              ),
+              const SizedBox(height: 30),
 
-            // Taiwan's Top Artists Section
-            const HeadingText(text: "Taiwan Top Artists Today"),
-            const SizedBox(height: 15),
-            ArtistContent(
-              artists: apiService.taiwanTopArtists,
-              apiFunction: apiService.getTaiwanTopArtists,
-              isLoading: displayManager.isTaiwanLoading,
-              toggleLoading: () =>
-                  displayManager.toggleLoading(category: 'taiwan'),
-              isError: displayManager.isTaiwanError,
-              toggleError: () => displayManager.toggleError(category: 'taiwan'),
-            ),
-            const SizedBox(height: 30),
+              // Taiwan's Top Artists Section
+              const HeadingText(text: "Taiwan Top Artists Today"),
+              const SizedBox(height: 15),
+              ArtistContent(
+                artists: apiService.taiwanTopArtists,
+                apiFunction: apiService.getTaiwanTopArtists,
+                isLoading: displayManager.isTaiwanLoading,
+                toggleLoading: () =>
+                    displayManager.toggleLoading(category: 'taiwan'),
+                isError: displayManager.isTaiwanError,
+                toggleError: () =>
+                    displayManager.toggleError(category: 'taiwan'),
+              ),
+              const SizedBox(height: 30),
 
-            // USA's Top Artists Section
-            const HeadingText(text: "USA Top Artists Today"),
-            const SizedBox(height: 15),
-            ArtistContent(
-              artists: apiService.usaTopArtists,
-              apiFunction: apiService.getUSATopArtists,
-              isLoading: displayManager.isUSALoading,
-              toggleLoading: () =>
-                  displayManager.toggleLoading(category: 'usa'),
-              isError: displayManager.isUSAError,
-              toggleError: () => displayManager.toggleError(category: 'usa'),
-            ),
-            const SizedBox(height: 30),
+              // USA's Top Artists Section
+              const HeadingText(text: "USA Top Artists Today"),
+              const SizedBox(height: 15),
+              ArtistContent(
+                artists: apiService.usaTopArtists,
+                apiFunction: apiService.getUSATopArtists,
+                isLoading: displayManager.isUSALoading,
+                toggleLoading: () =>
+                    displayManager.toggleLoading(category: 'usa'),
+                isError: displayManager.isUSAError,
+                toggleError: () => displayManager.toggleError(category: 'usa'),
+              ),
+              const SizedBox(height: 30),
 
-            // Recommended Genres Section
-            const HeadingText(text: "Recommended Genres"),
-            const SizedBox(height: 15),
-            const GenreSection(),
-            const SizedBox(height: 20),
-          ],
+              // Recommended Genres Section
+              const HeadingText(text: "Recommended Genres"),
+              const SizedBox(height: 15),
+              const GenreSection(),
+              const SizedBox(height: 40),
+            ],
+          ),
         ),
       ),
     );
