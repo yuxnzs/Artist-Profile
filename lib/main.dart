@@ -20,9 +20,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => APIService()),
         ChangeNotifierProvider(create: (context) => DisplayManager()),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Homepage(),
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+        ),
+        home: const Homepage(),
       ),
     );
   }
