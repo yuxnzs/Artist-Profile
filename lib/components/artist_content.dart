@@ -18,24 +18,34 @@ class ArtistContent extends StatefulWidget {
   // Fetch artists based on parent widget's apiFunction
   final Future<void> Function() apiFunction;
 
-  const ArtistContent(
-      {super.key, this.selectedGenre, this.artists, required this.apiFunction});
+  // Parent widget passes states and toggle functions from DisplayManager
+  final bool isLoading;
+  final void Function() toggleLoading;
+  final bool isError;
+  final void Function() toggleError;
+
+  const ArtistContent({
+    super.key,
+    this.selectedGenre,
+    this.artists,
+    required this.apiFunction,
+    required this.isLoading,
+    required this.toggleLoading,
+    required this.isError,
+    required this.toggleError,
+  });
 
   @override
   State<ArtistContent> createState() => _ArtistContentState();
 }
 
 class _ArtistContentState extends State<ArtistContent> {
-  bool isLoading = true;
-  bool isError = false;
   Timer? _timer; // Timer to check if API data failed to fetch
 
   @override
   void initState() {
     super.initState();
-
-    // Fetch recommendations when the page is initialized
-    _initializeRecommendations();
+    _startTimer();
   }
 
   @override
@@ -44,22 +54,12 @@ class _ArtistContentState extends State<ArtistContent> {
     super.dispose();
   }
 
-  void _initializeRecommendations() {
-    // Set a timer to check if recommendations failed to fetch after 10 seconds
-    _startTimer();
-
-    // Get recommendations after the widget is built
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _getRecommendations(widget.apiFunction);
-    });
-  }
-
   void _startTimer() {
     _timer = Timer(const Duration(seconds: 10), () {
-      if (isLoading) {
+      if (widget.isLoading) {
         setState(() {
-          isError = true;
-          isLoading = false; // Stop loading and display error message
+          widget.toggleError();
+          widget.toggleLoading(); // Stop loading and display error message
         });
       }
     });
@@ -68,7 +68,7 @@ class _ArtistContentState extends State<ArtistContent> {
   void _getRecommendations(Future<void> Function() apiFunction) {
     apiFunction().then((_) {
       setState(() {
-        isLoading = false;
+        widget.toggleLoading();
         // If recommendations loaded successfully, cancel the timer
         _timer?.cancel();
       });
@@ -77,8 +77,8 @@ class _ArtistContentState extends State<ArtistContent> {
 
   void onRetry() {
     setState(() {
-      isLoading = true;
-      isError = false;
+      widget.toggleLoading();
+      widget.toggleError();
     });
 
     // Reset the timer and get recommendations
@@ -93,9 +93,9 @@ class _ArtistContentState extends State<ArtistContent> {
     return Column(
       children: [
         // If isLoading, display LoadingArtistCard
-        if (isLoading)
+        if (widget.isLoading)
           const ArtistPlaceholder()
-        else if (isError)
+        else if (widget.isError)
           // Display error message and retry button
           LoadingError(onRetry: onRetry)
         else if (widget.selectedGenre != null)
