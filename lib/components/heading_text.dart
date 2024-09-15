@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:artist_profile/utility/app_constants.dart';
 
 class HeadingText extends StatelessWidget {
   final String text;
@@ -12,7 +13,7 @@ class HeadingText extends StatelessWidget {
     return Row(
       children: [
         Container(
-          margin: const EdgeInsets.only(left: 20),
+          margin: const EdgeInsets.only(left: AppConstants.globalMargin),
           child: Text(
             text,
             style: TextStyle(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:artist_profile/utility/app_constants.dart';
 import 'package:artist_profile/components/genre_tag.dart';
 import 'package:artist_profile/models/genres.dart';
 
@@ -20,7 +21,7 @@ class GenreRow extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
-          const SizedBox(width: 20), // Visual spacing
+          const SizedBox(width: AppConstants.globalMargin), // Visual spacing
           ...genres.map((genre) {
             return Padding(
               padding: const EdgeInsets.only(right: 25),

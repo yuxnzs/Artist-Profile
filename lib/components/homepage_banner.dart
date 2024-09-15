@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/custom_colors.dart';
+import 'package:artist_profile/utility/app_constants.dart';
 import 'package:artist_profile/components/artist_image.dart';
 
 class HomepageBanner extends StatelessWidget {
@@ -10,7 +11,7 @@ class HomepageBanner extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 150,
-      margin: const EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: AppConstants.globalMargin),
       decoration: BoxDecoration(
         color: CustomColors.background,
         borderRadius: BorderRadius.circular(20),

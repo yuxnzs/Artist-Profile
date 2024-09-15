@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:artist_profile/utility/app_constants.dart';
 import 'package:artist_profile/models/artist.dart';
 import 'package:artist_profile/components/artist_card.dart';
 
@@ -19,7 +20,8 @@ class ArtistRow extends StatelessWidget {
         itemCount: artists.length + 1, // +1 for initial spacing
         itemBuilder: (context, index) {
           if (index == 0) {
-            return const SizedBox(width: 20); // Initial spacing,
+            return const SizedBox(
+                width: AppConstants.globalMargin); // Initial spacing,
           }
           final artist = artists[index - 1];
           return Padding(
