@@ -24,7 +24,7 @@ class GenreRow extends StatelessWidget {
           const SizedBox(width: AppConstants.globalMargin), // Visual spacing
           ...genres.map((genre) {
             return Padding(
-              padding: const EdgeInsets.only(right: 25),
+              padding: const EdgeInsets.only(right: 20),
               child: GenreTag(
                 genre: genre,
                 onTap: () => onGenreSelected(genre),
