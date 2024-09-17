@@ -61,7 +61,6 @@ class HomepageBanner extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(width: 10),
 
             // Artist Image
             const ArtistImage(
