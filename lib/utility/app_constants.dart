@@ -1,3 +1,3 @@
 class AppConstants {
-  static const double globalMargin = 23;
+  static const double globalMargin = 24;
 }
