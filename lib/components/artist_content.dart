@@ -57,29 +57,23 @@ class _ArtistContentState extends State<ArtistContent> {
   void _startTimer() {
     _timer = Timer(const Duration(seconds: 10), () {
       if (widget.isLoading) {
-        setState(() {
-          widget.toggleError();
-          widget.toggleLoading(); // Stop loading and display error message
-        });
+        widget.toggleError();
+        widget.toggleLoading(); // Stop loading and display error message
       }
     });
   }
 
   void _fetchArtists(Future<void> Function() apiFunction) {
     apiFunction().then((_) {
-      setState(() {
-        widget.toggleLoading();
-        // If artists loaded successfully, cancel the timer
-        _timer?.cancel();
-      });
+      widget.toggleLoading();
+      // If artists loaded successfully, cancel the timer
+      _timer?.cancel();
     });
   }
 
   void onRetry() {
-    setState(() {
-      widget.toggleLoading();
-      widget.toggleError();
-    });
+    widget.toggleLoading();
+    widget.toggleError();
 
     // Reset the timer and get artists
     _startTimer();
