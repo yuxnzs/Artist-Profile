@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:artist_profile/utility/app_constants.dart';
 import 'package:artist_profile/components/loading_artist_card.dart';
 
 class ArtistPlaceholder extends StatelessWidget {
@@ -9,7 +10,7 @@ class ArtistPlaceholder extends StatelessWidget {
     return const Row(
       // Simulate the layout of an artist_row
       children: [
-        SizedBox(width: 20),
+        SizedBox(width: AppConstants.globalMargin),
         LoadingArtistCard(),
         SizedBox(width: 25),
         LoadingArtistCard(),
