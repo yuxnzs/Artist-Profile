@@ -2,16 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:artist_profile/components/loading_placeholder.dart';
 
 class ArtistImagePlaceholder extends StatelessWidget {
-  const ArtistImagePlaceholder({super.key});
+  final bool isCircular;
+  final double imageWidth;
+  final double imageHeight;
+
+  const ArtistImagePlaceholder({
+    super.key,
+    this.isCircular = true,
+    this.imageWidth = 100,
+    this.imageHeight = 100,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const ClipOval(
-      child: SizedBox(
-        width: 100,
-        height: 100,
-        child: LoadingPlaceholder(),
-      ),
+    Widget placeholder = SizedBox(
+      width: imageWidth,
+      height: imageHeight,
+      child: const LoadingPlaceholder(),
     );
+
+    return isCircular ? ClipOval(child: placeholder) : placeholder;
   }
 }
