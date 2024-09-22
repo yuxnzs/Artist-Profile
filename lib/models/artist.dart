@@ -1,16 +1,20 @@
 class ArtistBio {
-  final String description;
-  final String birthday;
-  final String activeCountry;
-  final String countryCode;
-  final String birthplace;
+  final String? description;
+  final String? birthday;
+  final String? activeCountry;
+  final String? countryCode;
+  final String? birthPlace;
+  final String? wikiUrl;
+  final String? musicBrainzUrl;
 
   ArtistBio({
-    required this.description,
-    required this.birthday,
-    required this.activeCountry,
-    required this.countryCode,
-    required this.birthplace,
+    this.description,
+    this.birthday,
+    this.activeCountry,
+    this.countryCode,
+    this.birthPlace,
+    this.wikiUrl,
+    this.musicBrainzUrl,
   });
 
   factory ArtistBio.fromJson(Map<String, dynamic> json) {
@@ -19,25 +23,29 @@ class ArtistBio {
       birthday: json['birthday'],
       activeCountry: json['activeCountry'],
       countryCode: json['countryCode'],
-      birthplace: json['birthplace'],
+      birthPlace: json['birthPlace'],
+      wikiUrl: json['wikiUrl'],
+      musicBrainzUrl: json['musicbrainzUrl'],
     );
   }
 }
 
 class Artist {
   final String name;
-  final String image;
+  final String? image;
   final double popularity;
   final int followers;
   final List<String> genres;
+  final String spotifyUrl;
   final ArtistBio? bio;
 
   Artist({
     required this.name,
-    required this.image,
+    this.image,
     required this.popularity,
     required this.followers,
     required this.genres,
+    required this.spotifyUrl,
     this.bio,
   });
 
@@ -48,6 +56,7 @@ class Artist {
       popularity: json['popularity'].toDouble(),
       followers: json['followers'],
       genres: List<String>.from(json['genres']),
+      spotifyUrl: json['spotifyUrl'],
       bio: json['bio'] != null ? ArtistBio.fromJson(json['bio']) : null,
     );
   }
