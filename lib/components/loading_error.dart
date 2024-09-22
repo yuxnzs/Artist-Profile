@@ -12,7 +12,12 @@ class LoadingError extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text("Failed to load recommendations. Please try again."),
+          const Text(
+            "Failed to load data. Please try again.",
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
           const SizedBox(height: 10),
           OutlinedButton(
             style: OutlinedButton.styleFrom(
