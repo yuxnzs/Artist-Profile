@@ -17,6 +17,7 @@ class StatRow extends StatelessWidget {
         children: [
           const SizedBox(width: AppConstants.artistBioPageMargin),
           StatTag(
+            type: 'Spotify popularity',
             label: (artistData.popularity % 1 == 0)
                 // Remove decimal point if it's an integer
                 ? artistData.popularity.toInt().toString()
@@ -26,12 +27,14 @@ class StatRow extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           StatTag(
+            type: 'Spotify followers',
             label: NumberFormat('#,###').format(artistData.followers),
             icon: Icons.people,
           ),
           const SizedBox(width: 10),
           if (artistData.genres.isNotEmpty) ...[
             StatTag(
+              type: 'Genres',
               // Display first five genres
               label: artistData.genres
                   .take(5)
