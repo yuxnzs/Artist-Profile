@@ -24,6 +24,9 @@ class ArtistContent extends StatefulWidget {
   final bool isError;
   final void Function() toggleError;
 
+  // For Hero() tag parameter
+  final String category;
+
   const ArtistContent({
     super.key,
     this.selectedGenre,
@@ -33,6 +36,7 @@ class ArtistContent extends StatefulWidget {
     required this.toggleLoading,
     required this.isError,
     required this.toggleError,
+    required this.category,
   });
 
   @override
@@ -105,12 +109,14 @@ class _ArtistContentState extends State<ArtistContent> {
                       .any((genre) =>
                           genre == widget.selectedGenre!.toLowerCase()))
                   .toList(),
+              category: widget.category,
             ),
           )
         else if (widget.artists != null)
           // Display all artists
           ArtistRow(
             artists: widget.artists!,
+            category: widget.category,
           )
       ],
     );

@@ -42,6 +42,7 @@ class _GenreSectionState extends State<GenreSection> {
           toggleError: () => context
               .read<DisplayManager>()
               .toggleError(category: 'recommendations'),
+          category: 'recommendations',
         ),
       ],
     );

@@ -21,12 +21,15 @@ class ArtistBioPage extends StatefulWidget {
   final bool apiIncludeSpotifyInfo;
   // Pass from homepage's ArtistCard
   final Artist? passedArtist;
+  // For Hero() tag parameter, passed from ArtistCard
+  final String? category;
 
   const ArtistBioPage({
     super.key,
     required this.artistName,
     required this.apiIncludeSpotifyInfo,
     this.passedArtist,
+    this.category,
   });
 
   @override
@@ -101,7 +104,10 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
     double topSafeArea = MediaQuery.of(context).padding.top;
 
     if (isLoading) {
-      return const LoadingArtistBioPage();
+      return LoadingArtistBioPage(
+        artist: widget.passedArtist,
+        category: widget.category ?? "",
+      );
     } else if (isError) {
       return ErrorArtistBioPage(onRetry: _onRetry);
     }

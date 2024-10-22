@@ -8,8 +8,14 @@ import 'package:artist_profile/pages/artist_bio_page.dart';
 
 class ArtistCard extends StatelessWidget {
   final Artist artist;
+  // For Hero() tag parameter
+  final String category;
 
-  const ArtistCard({super.key, required this.artist});
+  const ArtistCard({
+    super.key,
+    required this.artist,
+    required this.category,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +28,7 @@ class ArtistCard extends StatelessWidget {
               artistName: artist.name,
               apiIncludeSpotifyInfo: false,
               passedArtist: artist,
+              category: category,
             ),
           ),
         );
@@ -38,7 +45,10 @@ class ArtistCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Artist Image
-            RoundedArtistImage(imageUrl: artist.image ?? ''),
+            Hero(
+              tag: "${artist.name}-$category",
+              child: RoundedArtistImage(imageUrl: artist.image ?? ""),
+            ),
             const SizedBox(height: 10),
 
             // Artist Name

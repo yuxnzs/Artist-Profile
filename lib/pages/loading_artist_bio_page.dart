@@ -5,9 +5,33 @@ import 'package:artist_profile/components/drag_indicator.dart';
 import 'package:artist_profile/components/placeholder_block.dart';
 import 'package:artist_profile/components/birth_info_row.dart';
 import 'package:artist_profile/components/exit_button.dart';
+import 'package:artist_profile/models/artist.dart';
+import 'package:artist_profile/components/artist_bio_image.dart';
 
-class LoadingArtistBioPage extends StatelessWidget {
-  const LoadingArtistBioPage({super.key});
+class LoadingArtistBioPage extends StatefulWidget {
+  final Artist? artist;
+  // For Hero() tag parameter
+  final String? category;
+
+  const LoadingArtistBioPage({super.key, this.artist, required this.category});
+
+  @override
+  State<LoadingArtistBioPage> createState() => _LoadingArtistBioPageState();
+}
+
+class _LoadingArtistBioPageState extends State<LoadingArtistBioPage> {
+  bool _isSheetVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Make sure the page is rendered before updating isSheetVisible
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _isSheetVisible = true;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +44,27 @@ class LoadingArtistBioPage extends StatelessWidget {
           alignment: Alignment.topCenter,
           children: [
             // Artist image on the top
-            const ArtistImagePlaceholder(
-              imageWidth: double.infinity,
-              imageHeight: 380,
-              isCircular: false,
-            ),
+            widget.artist == null
+                ? const ArtistImagePlaceholder(
+                    imageWidth: double.infinity,
+                    imageHeight: 380,
+                    isCircular: false,
+                  )
+                // For Homepage to ArtistBioPage animation
+                : Hero(
+                    tag: "${widget.artist!.name}-${widget.category}",
+                    child: ArtistBioImage(
+                      imageUrl: widget.artist!.image ?? "",
+                    ),
+                  ),
 
             // Sheet for artist bio
-            Positioned(
-              top: 355,
+            // Sheet animation to avoid image on top of the sheet at the beginning
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 550),
+              curve: Curves.easeInOut,
+              // Screen size for bottom of the screen
+              top: _isSheetVisible ? 355 : MediaQuery.of(context).size.height,
               left: 0,
               right: 0,
               child: Stack(

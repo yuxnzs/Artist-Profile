@@ -5,10 +5,13 @@ import 'package:artist_profile/components/artist_card.dart';
 
 class ArtistRow extends StatelessWidget {
   final List<Artist> artists;
+  // For Hero() tag parameter
+  final String category;
 
   const ArtistRow({
     super.key,
     required this.artists,
+    required this.category,
   });
 
   @override
@@ -26,7 +29,7 @@ class ArtistRow extends StatelessWidget {
           final artist = artists[index - 1];
           return Padding(
             padding: const EdgeInsets.only(right: 25),
-            child: ArtistCard(artist: artist),
+            child: ArtistCard(artist: artist, category: category),
           );
         },
       ),

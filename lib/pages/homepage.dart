@@ -86,6 +86,7 @@ class _HomepageState extends State<Homepage> {
                 isError: displayManager.isGlobalError,
                 toggleError: () =>
                     displayManager.toggleError(category: 'global'),
+                category: "global",
               ),
               const SizedBox(height: 30),
 
@@ -101,6 +102,7 @@ class _HomepageState extends State<Homepage> {
                 isError: displayManager.isTaiwanError,
                 toggleError: () =>
                     displayManager.toggleError(category: 'taiwan'),
+                category: "taiwan",
               ),
               const SizedBox(height: 30),
 
@@ -115,6 +117,7 @@ class _HomepageState extends State<Homepage> {
                     displayManager.toggleLoading(category: 'usa'),
                 isError: displayManager.isUSAError,
                 toggleError: () => displayManager.toggleError(category: 'usa'),
+                category: "usa",
               ),
               const SizedBox(height: 30),
 
