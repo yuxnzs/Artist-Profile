@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:artist_profile/components/artist_image_placeholder.dart';
 
-class ArtistImage extends StatelessWidget {
+class RoundedArtistImage extends StatelessWidget {
   final double width;
   final double height;
   final String imageUrl;
 
-  const ArtistImage({
+  const RoundedArtistImage({
     super.key,
     required this.imageUrl,
     this.width = 100,

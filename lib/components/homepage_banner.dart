@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/custom_colors.dart';
 import 'package:artist_profile/utility/app_constants.dart';
-import 'package:artist_profile/components/artist_image.dart';
+import 'package:artist_profile/components/rounded_artist_image.dart';
 
 class HomepageBanner extends StatelessWidget {
   const HomepageBanner({super.key});
@@ -63,7 +63,7 @@ class HomepageBanner extends StatelessWidget {
             ),
 
             // Artist Image
-            const ArtistImage(
+            const RoundedArtistImage(
                 imageUrl:
                     "https://i.scdn.co/image/ab67616100005174859e4c14fa59296c8649e0e4"),
           ],
