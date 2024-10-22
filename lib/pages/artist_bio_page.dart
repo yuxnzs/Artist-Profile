@@ -1,21 +1,20 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:artist_profile/managers/display_manager.dart';
 import 'package:artist_profile/models/artist.dart';
 import 'package:artist_profile/services/api_service.dart';
-import 'package:artist_profile/components/artist_image_placeholder.dart';
 import 'package:artist_profile/components/drag_indicator.dart';
 import 'package:artist_profile/components/artist_bio_header.dart';
 import 'package:artist_profile/components/stat_row.dart';
 import 'package:artist_profile/components/birth_info_row.dart';
 import 'package:artist_profile/components/bio_text.dart';
-import 'package:artist_profile/components/loading_artist_bio_page.dart';
+import 'package:artist_profile/pages/loading_artist_bio_page.dart';
 import 'package:artist_profile/components/external_links_section.dart';
 import 'package:artist_profile/components/exit_button.dart';
 import 'package:artist_profile/components/problem_button.dart';
-import 'package:artist_profile/components/error_artist_bio_page.dart';
+import 'package:artist_profile/pages/error_artist_bio_page.dart';
+import 'package:artist_profile/components/artist_bio_image.dart';
 
 class ArtistBioPage extends StatefulWidget {
   final String artistName;
@@ -112,16 +111,10 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
         alignment: Alignment.topCenter,
         children: [
           // Artist image on the top
-          CachedNetworkImage(
-            width: double.infinity,
-            height: 380,
+          ArtistBioImage(
             imageUrl: widget.apiIncludeSpotifyInfo
                 ? apiArtistData.image ?? ""
                 : widget.passedArtist?.image ?? "",
-            fit: BoxFit.cover,
-            placeholder: (context, url) =>
-                const ArtistImagePlaceholder(isCircular: false),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
 
           // Make sure sheet cover the exit button
