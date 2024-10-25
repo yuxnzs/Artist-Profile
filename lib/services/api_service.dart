@@ -47,11 +47,11 @@ class APIService with ChangeNotifier {
     }
   }
 
-  // Fetch artists for a specific category
+  // Fetch artists for a specific endpoint
   Future<void> fetchArtistsForCategory(
       String endpoint, List<Artist> targetList) async {
     final artists = await _fetchArtistsData<Artist>(endpoint, Artist.fromJson);
-    targetList.clear();
+    targetList.clear(); // For multiple calls on the same endpoint's targetList
     targetList.addAll(artists);
 
     notifyListeners();
