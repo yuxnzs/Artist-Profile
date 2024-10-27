@@ -35,21 +35,12 @@ class _HomepageState extends State<Homepage> {
   }
 
   void initialize() async {
-    await performAPICall(apiService.getGlobalTopArtists, 'global');
-    await performAPICall(apiService.getTaiwanTopArtists, 'taiwan');
-    await performAPICall(apiService.getUSATopArtists, 'usa');
-    await performAPICall(apiService.getRecommendations, 'recommendations');
-  }
-
-  // Use function to toggle loading after API call
-  Future<void> performAPICall(
-      Future<void> Function() apiCall, String category) async {
     try {
-      await apiCall();
-      displayManager.toggleLoading(category: category);
+      await apiService.getAllHomepageArtists();
+      displayManager.toggleLoading(category: 'allHomepageArtists');
     } catch (e) {
-      // ArtistContent will display error message and retry button after 10 seconds if isLoading is still true
-      log('API Exception: $e');
+      displayManager.toggleError(category: 'allHomepageArtists');
+      log("Error in homepage initialization: $e");
     }
   }
 
