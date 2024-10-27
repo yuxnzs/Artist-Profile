@@ -44,43 +44,46 @@ class ArtistContent extends StatefulWidget {
 }
 
 class _ArtistContentState extends State<ArtistContent> {
-  Timer? _timer; // Timer to check if API data failed to fetch
+  // Used for UI delay, actual error is passed via widget.isError
+  bool _showError = false;
+  // Prevent multiple calls to didUpdateWidget after toggleLoading is triggered
+  // (since isLoading is passed from the parent, calling toggleLoading will trigger didUpdateWidget again)
+  bool _hasCalledDidUpdateWidgetOnce = false;
 
   @override
-  void initState() {
-    super.initState();
-    _startTimer();
-  }
+  void didUpdateWidget(covariant ArtistContent oldWidget) {
+    super.didUpdateWidget(oldWidget);
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  void _startTimer() {
-    _timer = Timer(const Duration(seconds: 10), () {
-      if (widget.isLoading) {
-        widget.toggleError();
-        widget.toggleLoading(); // Stop loading and display error message
-      }
-    });
+    // If API call fails, display error message and retry button after 2 seconds to avoid flickering
+    if (widget.isError && !_showError && !_hasCalledDidUpdateWidgetOnce) {
+      _hasCalledDidUpdateWidgetOnce = true;
+      Future.delayed(const Duration(seconds: 2), () {
+        if (mounted) {
+          setState(() {
+            _showError = true;
+          });
+        }
+        // Set isLoading to false to display error message
+        widget.toggleLoading();
+      });
+    }
   }
 
   void _fetchArtists(Future<void> Function() apiFunction) {
     apiFunction().then((_) {
       widget.toggleLoading();
-      // If artists loaded successfully, cancel the timer
-      _timer?.cancel();
+    }).catchError((_) {
+      widget.toggleError();
     });
   }
 
   void onRetry() {
     widget.toggleLoading();
     widget.toggleError();
+    _showError = false;
+    _hasCalledDidUpdateWidgetOnce = false;
 
-    // Reset the timer and get artists
-    _startTimer();
+    // Fetch artists again
     _fetchArtists(widget.apiFunction);
   }
 
@@ -93,7 +96,7 @@ class _ArtistContentState extends State<ArtistContent> {
         // If isLoading, display LoadingArtistCard
         if (widget.isLoading)
           const ArtistPlaceholder()
-        else if (widget.isError)
+        else if (_showError)
           // Display error message and retry button
           LoadingError(onRetry: onRetry)
         else if (widget.selectedGenre != null)
