@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/app_constants.dart';
-import 'package:artist_profile/components/custom_country_flag.dart';
+import 'package:artist_profile/components/artist_bio_page/custom_country_flag.dart';
 
 class ArtistBioHeader extends StatelessWidget {
   final String artistName;

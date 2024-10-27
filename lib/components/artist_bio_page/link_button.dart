@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:artist_profile/components/apple_dialog.dart';
+import 'package:artist_profile/components/common/apple_dialog.dart';
 
 class LinkButton extends StatelessWidget {
   final String url;

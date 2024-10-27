@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:artist_profile/components/apple_dialog.dart';
+import 'package:artist_profile/components/common/apple_dialog.dart';
 import 'package:country_flags/country_flags.dart';
 
 class CustomCountryFlag extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/app_constants.dart';
-import 'package:artist_profile/components/birth_info_block.dart';
+import 'package:artist_profile/components/artist_bio_page/birth_info_block.dart';
 
 class BirthInfoRow extends StatelessWidget {
   final String? birthday;

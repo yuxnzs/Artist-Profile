@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:artist_profile/services/api_service.dart';
-import 'package:artist_profile/components/artist_placeholder.dart';
-import 'package:artist_profile/components/loading_error.dart';
-import 'package:artist_profile/components/artist_row.dart';
+import 'package:artist_profile/components/homepage/artist_placeholder.dart';
+import 'package:artist_profile/components/common/loading_error.dart';
+import 'package:artist_profile/components/homepage/artist_row.dart';
 import 'package:artist_profile/models/artist.dart';
 
 class ArtistContent extends StatefulWidget {

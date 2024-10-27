@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:artist_profile/models/artist.dart';
 import 'package:artist_profile/utility/custom_colors.dart';
-import 'package:artist_profile/components/rounded_artist_image.dart';
+import 'package:artist_profile/components/homepage/rounded_artist_image.dart';
 import 'package:artist_profile/pages/artist_bio_page.dart';
 
 class ArtistCard extends StatelessWidget {

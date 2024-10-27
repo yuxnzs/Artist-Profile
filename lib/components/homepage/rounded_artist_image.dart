@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:artist_profile/components/artist_image_placeholder.dart';
+import 'package:artist_profile/components/artist_bio_page/artist_image_placeholder.dart';
 
 class RoundedArtistImage extends StatelessWidget {
   final double width;

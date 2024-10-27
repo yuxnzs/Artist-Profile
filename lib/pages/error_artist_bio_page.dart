@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:artist_profile/components/loading_error.dart';
-import 'package:artist_profile/components/exit_button.dart';
+import 'package:artist_profile/components/common/loading_error.dart';
+import 'package:artist_profile/components/common/exit_button.dart';
 
 class ErrorArtistBioPage extends StatelessWidget {
   final Function() onRetry;

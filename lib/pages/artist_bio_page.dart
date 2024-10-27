@@ -4,17 +4,17 @@ import 'package:provider/provider.dart';
 import 'package:artist_profile/managers/display_manager.dart';
 import 'package:artist_profile/models/artist.dart';
 import 'package:artist_profile/services/api_service.dart';
-import 'package:artist_profile/components/drag_indicator.dart';
-import 'package:artist_profile/components/artist_bio_header.dart';
-import 'package:artist_profile/components/stat_row.dart';
-import 'package:artist_profile/components/birth_info_row.dart';
-import 'package:artist_profile/components/bio_text.dart';
+import 'package:artist_profile/components/artist_bio_page/drag_indicator.dart';
+import 'package:artist_profile/components/artist_bio_page/artist_bio_header.dart';
+import 'package:artist_profile/components/artist_bio_page/stat_row.dart';
+import 'package:artist_profile/components/artist_bio_page/birth_info_row.dart';
+import 'package:artist_profile/components/artist_bio_page/bio_text.dart';
 import 'package:artist_profile/pages/loading_artist_bio_page.dart';
-import 'package:artist_profile/components/external_links_section.dart';
-import 'package:artist_profile/components/exit_button.dart';
-import 'package:artist_profile/components/problem_button.dart';
+import 'package:artist_profile/components/artist_bio_page/external_links_section.dart';
+import 'package:artist_profile/components/common/exit_button.dart';
+import 'package:artist_profile/components/artist_bio_page/problem_button.dart';
 import 'package:artist_profile/pages/error_artist_bio_page.dart';
-import 'package:artist_profile/components/artist_bio_image.dart';
+import 'package:artist_profile/components/artist_bio_page/artist_bio_image.dart';
 
 class ArtistBioPage extends StatefulWidget {
   final String artistName;

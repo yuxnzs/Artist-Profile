@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/custom_colors.dart';
-import 'package:artist_profile/components/loading_placeholder.dart';
-import 'package:artist_profile/components/artist_image_placeholder.dart';
+import 'package:artist_profile/components/common/loading_placeholder.dart';
+import 'package:artist_profile/components/artist_bio_page/artist_image_placeholder.dart';
 
 class LoadingArtistCard extends StatelessWidget {
   const LoadingArtistCard({super.key});

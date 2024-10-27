@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/app_constants.dart';
-import 'package:artist_profile/components/genre_tag.dart';
+import 'package:artist_profile/components/homepage/genre_tag.dart';
 import 'package:artist_profile/models/genres.dart';
 
 class GenreRow extends StatelessWidget {

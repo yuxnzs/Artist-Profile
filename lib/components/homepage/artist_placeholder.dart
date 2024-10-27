@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/app_constants.dart';
-import 'package:artist_profile/components/loading_artist_card.dart';
+import 'package:artist_profile/components/homepage/loading_artist_card.dart';
 
 class ArtistPlaceholder extends StatelessWidget {
   const ArtistPlaceholder({super.key});

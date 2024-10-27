@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:artist_profile/components/loading_placeholder.dart';
+import 'package:artist_profile/components/common/loading_placeholder.dart';
 
 class PlaceholderBlock extends StatelessWidget {
   final double width;

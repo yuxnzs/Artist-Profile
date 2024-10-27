@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:artist_profile/utility/app_constants.dart';
-import 'package:artist_profile/components/artist_image_placeholder.dart';
-import 'package:artist_profile/components/drag_indicator.dart';
-import 'package:artist_profile/components/placeholder_block.dart';
-import 'package:artist_profile/components/birth_info_row.dart';
-import 'package:artist_profile/components/exit_button.dart';
 import 'package:artist_profile/models/artist.dart';
-import 'package:artist_profile/components/artist_bio_image.dart';
+import 'package:artist_profile/utility/app_constants.dart';
+import 'package:artist_profile/components/artist_bio_page/artist_image_placeholder.dart';
+import 'package:artist_profile/components/artist_bio_page/drag_indicator.dart';
+import 'package:artist_profile/components/common/placeholder_block.dart';
+import 'package:artist_profile/components/artist_bio_page/birth_info_row.dart';
+import 'package:artist_profile/components/common/exit_button.dart';
+import 'package:artist_profile/components/artist_bio_page/artist_bio_image.dart';
 
 class LoadingArtistBioPage extends StatefulWidget {
   final Artist? artist;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/app_constants.dart';
-import 'package:artist_profile/components/link_button.dart';
+import 'package:artist_profile/components/artist_bio_page/link_button.dart';
 
 class ExternalLinksSection extends StatelessWidget {
   final dynamic apiArtistData;

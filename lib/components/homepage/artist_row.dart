@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/app_constants.dart';
 import 'package:artist_profile/models/artist.dart';
-import 'package:artist_profile/components/artist_card.dart';
+import 'package:artist_profile/components/homepage/artist_card.dart';
 
 class ArtistRow extends StatelessWidget {
   final List<Artist> artists;

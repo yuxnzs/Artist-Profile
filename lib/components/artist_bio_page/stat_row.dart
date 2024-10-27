@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:artist_profile/models/artist.dart';
 import 'package:artist_profile/utility/app_constants.dart';
-import 'package:artist_profile/components/stat_tag.dart';
+import 'package:artist_profile/components/artist_bio_page/stat_tag.dart';
 
 class StatRow extends StatelessWidget {
   final Artist artistData;

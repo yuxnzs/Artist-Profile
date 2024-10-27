@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/custom_colors.dart';
 import 'package:artist_profile/utility/app_constants.dart';
-import 'package:artist_profile/components/rounded_artist_image.dart';
+import 'package:artist_profile/components/homepage/rounded_artist_image.dart';
 
 class HomepageBanner extends StatelessWidget {
   const HomepageBanner({super.key});

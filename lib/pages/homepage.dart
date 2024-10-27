@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:artist_profile/services/api_service.dart';
 import 'package:artist_profile/managers/display_manager.dart';
-import 'package:artist_profile/components/heading_text.dart';
-import 'package:artist_profile/components/homepage_banner.dart';
-import 'package:artist_profile/components/genre_section.dart';
-import 'package:artist_profile/components/artist_content.dart';
+import 'package:artist_profile/components/homepage/heading_text.dart';
+import 'package:artist_profile/components/homepage/homepage_banner.dart';
+import 'package:artist_profile/components/homepage/genre_section.dart';
+import 'package:artist_profile/components/homepage/artist_content.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
