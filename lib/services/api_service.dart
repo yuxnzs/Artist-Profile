@@ -57,6 +57,44 @@ class APIService with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Artist> _convertToArtistList(dynamic data) {
+    if (data is List) {
+      // Convert each JSON object to an Artist object
+      return data.map((item) => Artist.fromJson(item)).toList();
+    }
+    return [];
+  }
+
+  // Get all artists for homepage
+  Future<void> getAllHomepageArtists() async {
+    try {
+      final allArtistsData = await _fetchArtistsData<Map<String, dynamic>>(
+          '/spotify-artists/homepage', (json) => json);
+
+      if (allArtistsData != null) {
+        // Add data to lists based on JSON keys
+        if (allArtistsData.containsKey('global')) {
+          globalTopArtists
+              .addAll(_convertToArtistList(allArtistsData['global']));
+        }
+        if (allArtistsData.containsKey('us')) {
+          usaTopArtists.addAll(_convertToArtistList(allArtistsData['us']));
+        }
+        if (allArtistsData.containsKey('tw')) {
+          taiwanTopArtists.addAll(_convertToArtistList(allArtistsData['tw']));
+        }
+        if (allArtistsData.containsKey('recommendations')) {
+          recommendedArtists
+              .addAll(_convertToArtistList(allArtistsData['recommendations']));
+        }
+
+        notifyListeners();
+      }
+    } catch (e) {
+      throw Exception('Error fetching homepage artists: $e');
+    }
+  }
+
   // Fetch recommended artists
   Future<void> getRecommendations() =>
       fetchArtistsForCategory('/recommendations', recommendedArtists);
