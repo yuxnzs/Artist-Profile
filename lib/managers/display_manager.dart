@@ -27,6 +27,12 @@ class DisplayManager with ChangeNotifier {
       case 'recommendations':
         isRecommendationsLoading = !isRecommendationsLoading;
         break;
+      case 'allHomepageArtists':
+        isGlobalLoading = false;
+        isTaiwanLoading = false;
+        isUSALoading = false;
+        isRecommendationsLoading = false;
+        break;
       default:
         throw Exception("Unknown variable name");
     }
@@ -46,6 +52,12 @@ class DisplayManager with ChangeNotifier {
         break;
       case 'recommendations':
         isRecommendationsError = !isRecommendationsError;
+        break;
+      case 'allHomepageArtists':
+        isGlobalError = true;
+        isTaiwanError = true;
+        isUSAError = true;
+        isRecommendationsError = true;
         break;
       default:
         throw Exception("Unknown variable name");
