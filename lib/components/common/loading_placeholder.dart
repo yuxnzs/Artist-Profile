@@ -37,7 +37,7 @@ class _LoadingPlaceholder extends State<LoadingPlaceholder> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 1500),
       color: Colors.grey.withOpacity(
-          _isAnimating ? 0.2 : 0.5), // Loading animation by changing opacity
+          _isAnimating ? 0.2 : 0.4), // Loading animation by changing opacity
     );
   }
 }
