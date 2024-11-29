@@ -51,8 +51,18 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
     displayManager = context.read<DisplayManager>();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      displayManager.setHideNavigationBar(true);
       _fetchArtistData();
     });
+  }
+
+  @override
+  void dispose() {
+    // Toggle hideNavigationBar after widget tree is unlocked
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      displayManager.setHideNavigationBar(false);
+    });
+    super.dispose();
   }
 
   // Fetch artist data from API
