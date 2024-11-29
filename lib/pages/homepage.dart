@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:artist_profile/services/api_service.dart';
 import 'package:artist_profile/managers/display_manager.dart';
+import 'package:artist_profile/utility/app_constants.dart';
 import 'package:artist_profile/components/homepage/heading_text.dart';
 import 'package:artist_profile/components/homepage/homepage_banner.dart';
 import 'package:artist_profile/components/homepage/genre_section.dart';
@@ -118,6 +119,9 @@ class _HomepageState extends State<Homepage> {
               const SizedBox(height: 15),
               const GenreSection(),
               SizedBox(height: sectionSpacing + 20),
+              const SizedBox(
+                height: AppConstants.bottomNavBarHeight + 10,
+              ),
             ],
           ),
         ),
