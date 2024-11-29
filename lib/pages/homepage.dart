@@ -18,6 +18,7 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   late APIService apiService;
   late DisplayManager displayManager;
+  double sectionSpacing = 25;
 
   @override
   void initState() {
@@ -63,7 +64,7 @@ class _HomepageState extends State<Homepage> {
 
               // Banner
               const HomepageBanner(),
-              const SizedBox(height: 30),
+              SizedBox(height: sectionSpacing),
 
               // Global Top Artists Section
               const HeadingText(text: "Global Top Artists Today"),
@@ -79,7 +80,7 @@ class _HomepageState extends State<Homepage> {
                     displayManager.toggleError(category: 'global'),
                 category: "global",
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: sectionSpacing),
 
               // Taiwan's Top Artists Section
               const HeadingText(text: "Taiwan Top Artists Today"),
@@ -95,7 +96,7 @@ class _HomepageState extends State<Homepage> {
                     displayManager.toggleError(category: 'taiwan'),
                 category: "taiwan",
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: sectionSpacing),
 
               // USA's Top Artists Section
               const HeadingText(text: "USA Top Artists Today"),
@@ -110,13 +111,13 @@ class _HomepageState extends State<Homepage> {
                 toggleError: () => displayManager.toggleError(category: 'usa'),
                 category: "usa",
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: sectionSpacing),
 
               // Recommended Genres Section
               const HeadingText(text: "Recommended Genres"),
               const SizedBox(height: 15),
               const GenreSection(),
-              const SizedBox(height: 40),
+              SizedBox(height: sectionSpacing + 20),
             ],
           ),
         ),
