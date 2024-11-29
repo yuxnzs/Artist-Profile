@@ -13,6 +13,9 @@ class DisplayManager with ChangeNotifier {
 
   bool hasHomepageInitialized = false;
 
+  bool hideNavigationBar = false;
+  bool isNavBarDisabled = false;
+
   void toggleLoading({required String category}) {
     switch (category) {
       case 'global':
@@ -62,6 +65,24 @@ class DisplayManager with ChangeNotifier {
       default:
         throw Exception("Unknown variable name");
     }
+    notifyListeners();
+  }
+
+  void setHideNavigationBar(bool shouldHide) {
+    hideNavigationBar = shouldHide;
+    isNavBarDisabled = shouldHide;
+
+    // Temporarily disable the navigation bar interaction while animating to hide
+    // Prevent user from switching tabs while it's disappearing
+    if (shouldHide) {
+      // Enable interaction after the navigation bar is hidden
+      // So that when it reappears, user can interact with it immediately
+      Future.delayed(const Duration(milliseconds: 350), () {
+        isNavBarDisabled = false;
+        notifyListeners();
+      });
+    }
+
     notifyListeners();
   }
 }
