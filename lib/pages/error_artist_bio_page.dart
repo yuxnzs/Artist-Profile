@@ -4,8 +4,15 @@ import 'package:artist_profile/components/common/exit_button.dart';
 
 class ErrorArtistBioPage extends StatelessWidget {
   final Function() onRetry;
+  final bool isNoData;
+  final String artistName;
 
-  const ErrorArtistBioPage({super.key, required this.onRetry});
+  const ErrorArtistBioPage({
+    super.key,
+    required this.onRetry,
+    required this.isNoData,
+    required this.artistName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +20,11 @@ class ErrorArtistBioPage extends StatelessWidget {
       body: Stack(
         children: [
           Center(
-            child: LoadingError(onRetry: onRetry),
+            child: LoadingError(
+              onRetry: onRetry,
+              isNoData: isNoData,
+              artistName: artistName,
+            ),
           ),
           const ExitButton(),
         ],

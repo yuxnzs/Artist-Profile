@@ -29,6 +29,12 @@ class APIService with ChangeNotifier {
         // Parse the JSON response
         final dynamic jsonData = jsonDecode(response.body);
 
+        // Return null to getArtistData() to return an empty map
+        if (jsonData.isEmpty) {
+          log("No data found");
+          return null;
+        }
+
         // Convert each JSON object to the designated type object
         if (jsonData is List) {
           // List of Artist objects, List<Artist>
@@ -123,6 +129,10 @@ class APIService with ChangeNotifier {
           '/artist-bio/$artistName?includeSpotifyInfo=$includeSpotifyInfo',
           Artist.fromJson,
         );
+        // Return an empty map to ArtistBioPage to display error message
+        if (artist == null) {
+          return {};
+        }
         return artist;
       } else {
         // includeSpotifyInfo is false, return ArtistBio

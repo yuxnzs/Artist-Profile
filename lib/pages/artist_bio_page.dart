@@ -42,6 +42,7 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
   late dynamic apiArtistData; // Type will be Artist, ArtistBio, or null
   bool isLoading = true;
   bool isError = false;
+  bool isNoData = false;
 
   @override
   void initState() {
@@ -62,19 +63,27 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
         artistName: widget.artistName,
         includeSpotifyInfo: widget.apiIncludeSpotifyInfo,
       );
-      // Prevent error caused by quickly leaving the page after API call
+      // Use mounted to prevent error caused by quickly leaving the page after API call
       if (mounted) {
-        setState(() {
-          if (widget.apiIncludeSpotifyInfo) {
-            // If need Spotify info, set Artist as data type
-            apiArtistData = data as Artist;
-          } else {
-            // If need artist bio only, set ArtistBio as data type
-            apiArtistData = data as ArtistBio;
-          }
-          // Set loading to false if API call is successful
-          isLoading = false;
-        });
+        // If data is a Map and is empty, means no data returned from API
+        if (data is Map && data.isEmpty) {
+          setState(() {
+            isNoData = true;
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            if (widget.apiIncludeSpotifyInfo) {
+              // If need Spotify info, set Artist as data type
+              apiArtistData = data as Artist;
+            } else {
+              // If need artist bio only, set ArtistBio as data type
+              apiArtistData = data as ArtistBio;
+            }
+            // Set loading to false if API call is successful
+            isLoading = false;
+          });
+        }
       }
     } catch (e) {
       log('$e');
@@ -108,8 +117,12 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
         artist: widget.passedArtist,
         category: widget.category ?? "",
       );
-    } else if (isError) {
-      return ErrorArtistBioPage(onRetry: _onRetry);
+    } else if (isError || isNoData) {
+      return ErrorArtistBioPage(
+        onRetry: _onRetry,
+        isNoData: isNoData,
+        artistName: widget.artistName,
+      );
     }
 
     return Scaffold(
