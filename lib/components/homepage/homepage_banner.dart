@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/custom_colors.dart';
 import 'package:artist_profile/utility/app_constants.dart';
 import 'package:artist_profile/components/homepage/rounded_artist_image.dart';
+import 'package:artist_profile/utility/global_tab_controller.dart';
 
 class HomepageBanner extends StatelessWidget {
   const HomepageBanner({super.key});
@@ -56,7 +57,9 @@ class HomepageBanner extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    globalTabController.jumpToTab(1);
+                  },
                   child: const Text("Explore"),
                 ),
               ],
