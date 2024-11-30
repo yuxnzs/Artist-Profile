@@ -120,7 +120,7 @@ class _HomepageState extends State<Homepage> {
               const GenreSection(),
               SizedBox(height: sectionSpacing + 20),
               const SizedBox(
-                height: AppConstants.bottomNavBarHeight + 10,
+                height: AppConstants.bottomNavBarHeight + 5,
               ),
             ],
           ),
