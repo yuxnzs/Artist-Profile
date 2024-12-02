@@ -224,6 +224,31 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
                               ? apiArtistData.bio?.description
                               : apiArtistData?.description,
                         ),
+
+                        const SizedBox(height: 10),
+
+                        // Disclaimer
+                        const Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.info_outline,
+                                color: Colors.grey,
+                                size: 15,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                "Data may be inaccurate. Click here to learn more.",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
                         const SizedBox(height: 20),
 
                         // External links
