@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class DisplayManager with ChangeNotifier {
-  bool isGlobalLoading = true;
-  bool isTaiwanLoading = true;
-  bool isUSALoading = true;
+  bool isHot100Loading = true;
+  bool isTop50Loading = true;
+  bool isMostStreamedLoading = true;
   bool isRecommendationsLoading = true;
 
-  bool isGlobalError = false;
-  bool isTaiwanError = false;
-  bool isUSAError = false;
+  bool isHot100Error = false;
+  bool isTop50Error = false;
+  bool isMostStreamedError = false;
   bool isRecommendationsError = false;
 
   bool hasHomepageInitialized = false;
@@ -18,22 +18,22 @@ class DisplayManager with ChangeNotifier {
 
   void toggleLoading({required String category}) {
     switch (category) {
-      case 'global':
-        isGlobalLoading = !isGlobalLoading;
+      case 'hot100':
+        isHot100Loading = !isHot100Loading;
         break;
-      case 'taiwan':
-        isTaiwanLoading = !isTaiwanLoading;
+      case 'top50':
+        isTop50Loading = !isTop50Loading;
         break;
-      case 'usa':
-        isUSALoading = !isUSALoading;
+      case 'mostStreamed':
+        isMostStreamedLoading = !isMostStreamedLoading;
         break;
       case 'recommendations':
         isRecommendationsLoading = !isRecommendationsLoading;
         break;
       case 'allHomepageArtists':
-        isGlobalLoading = false;
-        isTaiwanLoading = false;
-        isUSALoading = false;
+        isHot100Loading = false;
+        isTop50Loading = false;
+        isMostStreamedLoading = false;
         isRecommendationsLoading = false;
         break;
       default:
@@ -44,22 +44,22 @@ class DisplayManager with ChangeNotifier {
 
   void toggleError({required String category}) {
     switch (category) {
-      case 'global':
-        isGlobalError = !isGlobalError;
+      case 'hot100':
+        isHot100Error = !isHot100Error;
         break;
-      case 'taiwan':
-        isTaiwanError = !isTaiwanError;
+      case 'top50':
+        isTop50Error = !isTop50Error;
         break;
-      case 'usa':
-        isUSAError = !isUSAError;
+      case 'mostStreamed':
+        isMostStreamedError = !isMostStreamedError;
         break;
       case 'recommendations':
         isRecommendationsError = !isRecommendationsError;
         break;
       case 'allHomepageArtists':
-        isGlobalError = true;
-        isTaiwanError = true;
-        isUSAError = true;
+        isHot100Error = true;
+        isTop50Error = true;
+        isMostStreamedError = true;
         isRecommendationsError = true;
         break;
       default:

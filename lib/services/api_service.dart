@@ -7,10 +7,26 @@ import 'package:artist_profile/models/artist.dart';
 
 class APIService with ChangeNotifier {
   final String baseUrl = dotenv.get('BASE_URL');
+  List<Artist> hot100Artists = [];
+  List<Artist> top50Artists = [];
+  List<Artist> mostStreamedArtists = [];
   List<Artist> recommendedArtists = [];
-  List<Artist> globalTopArtists = [];
-  List<Artist> taiwanTopArtists = [];
-  List<Artist> usaTopArtists = [];
+
+  String hot100Title = "";
+  String top50Title = "";
+  String mostStreamedTitle = "";
+  String recommendedTitle = "";
+
+  String hot100InfoTitle = "";
+  String top50InfoTitle = "";
+  String mostStreamedInfoTitle = "";
+  String hot100InfoContent = "";
+  String top50InfoContent = "";
+  String mostStreamedInfoContent = "";
+
+  String hot100Link = "";
+  String top50Link = "";
+  String mostStreamedLink = "";
 
   // Fetch data from the API based on the endpoint
   Future<dynamic> _fetchArtistsData<T>(
@@ -36,11 +52,19 @@ class APIService with ChangeNotifier {
         }
 
         // Convert each JSON object to the designated type object
-        if (jsonData is List) {
-          // List of Artist objects, List<Artist>
-          return jsonData.map((item) => fromJson(item)).toList();
+        if (jsonData.containsKey('artists')) {
+          // Used when retrying to fetch artists after an error
+          return {
+            'title': jsonData['title']?.toString() ?? '',
+            'artists': jsonData['artists']
+                .map<Artist>((item) => fromJson(item))
+                .toList(),
+            'sectionTitle': jsonData['sectionTitle']?.toString() ?? '',
+            'sectionContent': jsonData['sectionContent']?.toString() ?? '',
+            'playlistLink': jsonData['playlistLink']?.toString() ?? '',
+          };
         } else {
-          // An Artist or ArtistBio object
+          // Used for Homepage or ArtistBio page (Artist or ArtistBio object)
           return fromJson(jsonData);
         }
       } else {
@@ -55,10 +79,21 @@ class APIService with ChangeNotifier {
 
   // Fetch artists for a specific endpoint
   Future<void> fetchArtistsForCategory(
-      String endpoint, List<Artist> targetList) async {
-    final artists = await _fetchArtistsData<Artist>(endpoint, Artist.fromJson);
+    String endpoint,
+    List<Artist> targetList,
+    void Function(String) setTitle,
+    void Function(String)? setInfoTitle,
+    void Function(String)? setInfoContent,
+    void Function(String)? setLink,
+  ) async {
+    final artistsData =
+        await _fetchArtistsData<Artist>(endpoint, Artist.fromJson);
+    setTitle(artistsData['title']);
     targetList.clear(); // For multiple calls on the same endpoint's targetList
-    targetList.addAll(artists);
+    targetList.addAll(artistsData['artists']);
+    setInfoTitle?.call(artistsData['sectionTitle']);
+    setInfoContent?.call(artistsData['sectionContent']);
+    setLink?.call(artistsData['playlistLink']);
 
     notifyListeners();
   }
@@ -75,23 +110,42 @@ class APIService with ChangeNotifier {
   Future<void> getAllHomepageArtists() async {
     try {
       final allArtistsData = await _fetchArtistsData<Map<String, dynamic>>(
-          '/spotify-artists/homepage', (json) => json);
+        '/spotify-artists/homepage',
+        (json) => json,
+      ); // (json) => json, gets the original JSON data without any changes
 
       if (allArtistsData != null) {
         // Add data to lists based on JSON keys
-        if (allArtistsData.containsKey('global')) {
-          globalTopArtists
-              .addAll(_convertToArtistList(allArtistsData['global']));
+        if (allArtistsData.containsKey('hot100')) {
+          hot100Artists.addAll(
+              _convertToArtistList(allArtistsData['hot100']['artists']));
+          hot100Title = allArtistsData['hot100']['title'];
+          hot100InfoTitle = allArtistsData['hot100']['sectionTitle'];
+          hot100InfoContent = allArtistsData['hot100']['sectionContent'];
+          hot100Link = allArtistsData['hot100']['playlistLink'];
         }
-        if (allArtistsData.containsKey('us')) {
-          usaTopArtists.addAll(_convertToArtistList(allArtistsData['us']));
+        if (allArtistsData.containsKey('top50')) {
+          top50Artists
+              .addAll(_convertToArtistList(allArtistsData['top50']['artists']));
+          top50Title = allArtistsData['top50']['title'];
+          top50InfoTitle = allArtistsData['top50']['sectionTitle'];
+          top50InfoContent = allArtistsData['top50']['sectionContent'];
+          top50Link = allArtistsData['top50']['playlistLink'];
         }
-        if (allArtistsData.containsKey('tw')) {
-          taiwanTopArtists.addAll(_convertToArtistList(allArtistsData['tw']));
+        if (allArtistsData.containsKey('mostStreamed')) {
+          mostStreamedArtists.addAll(
+              _convertToArtistList(allArtistsData['mostStreamed']['artists']));
+          mostStreamedTitle = allArtistsData['mostStreamed']['title'];
+          mostStreamedInfoTitle =
+              allArtistsData['mostStreamed']['sectionTitle'];
+          mostStreamedInfoContent =
+              allArtistsData['mostStreamed']['sectionContent'];
+          mostStreamedLink = allArtistsData['mostStreamed']['playlistLink'];
         }
         if (allArtistsData.containsKey('recommendations')) {
-          recommendedArtists
-              .addAll(_convertToArtistList(allArtistsData['recommendations']));
+          recommendedArtists.addAll(_convertToArtistList(
+              allArtistsData['recommendations']['artists']));
+          recommendedTitle = allArtistsData['recommendations']['title'];
         }
 
         notifyListeners();
@@ -101,21 +155,46 @@ class APIService with ChangeNotifier {
     }
   }
 
+  // For retry functions
+  // Fetch Hot 100 artists
+  Future<void> getHot100Artists() => fetchArtistsForCategory(
+        '/spotify-artists/hot100',
+        hot100Artists,
+        (title) => hot100Title = title,
+        (infoTitle) => hot100InfoTitle = infoTitle,
+        (infoContent) => hot100InfoContent = infoContent,
+        (link) => hot100Link = link,
+      );
+
+  // Fetch Top 50 artists
+  Future<void> getTop50Artists() => fetchArtistsForCategory(
+        '/spotify-artists/top50',
+        top50Artists,
+        (title) => top50Title = title,
+        (infoTitle) => top50InfoTitle = infoTitle,
+        (infoContent) => top50InfoContent = infoContent,
+        (link) => top50Link = link,
+      );
+
+  // Fetch Most Streamed artists
+  Future<void> getMostStreamedArtists() => fetchArtistsForCategory(
+        '/spotify-artists/most-streamed',
+        mostStreamedArtists,
+        (title) => mostStreamedTitle = title,
+        (infoTitle) => mostStreamedInfoTitle = infoTitle,
+        (infoContent) => mostStreamedInfoContent = infoContent,
+        (link) => mostStreamedLink = link,
+      );
+
   // Fetch recommended artists
-  Future<void> getRecommendations() =>
-      fetchArtistsForCategory('/recommendations', recommendedArtists);
-
-  // Fetch global top artists
-  Future<void> getGlobalTopArtists() =>
-      fetchArtistsForCategory('/spotify-artists/global', globalTopArtists);
-
-  // Fetch USA top artists
-  Future<void> getUSATopArtists() =>
-      fetchArtistsForCategory('/spotify-artists/us', usaTopArtists);
-
-  // Fetch Taiwan top artists
-  Future<void> getTaiwanTopArtists() =>
-      fetchArtistsForCategory('/spotify-artists/tw', taiwanTopArtists);
+  Future<void> getRecommendations() => fetchArtistsForCategory(
+        '/recommendations',
+        recommendedArtists,
+        (title) => recommendedTitle = title,
+        null,
+        null,
+        null,
+      );
 
   // Fetch artist data for ArtistBio page
   Future<dynamic> getArtistData({
