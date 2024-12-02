@@ -65,9 +65,14 @@ class _MainNavigationState extends State<MainNavigation> {
         ),
 
         // Fill the bottom margin
-        Container(
-          color: Colors.white,
-          height: 18,
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          transform: Matrix4.translationValues(
+              0, displayManager.hideNavigationBar ? 18 : 0, 0),
+          child: Container(
+            color: Colors.white,
+            height: 18,
+          ),
         ),
       ],
     );
