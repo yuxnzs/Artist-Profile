@@ -25,9 +25,7 @@ class GenreTag extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         height: 20,
         decoration: BoxDecoration(
-          color: isSelected
-              ? CustomColors.background.withOpacity(0.4)
-              : CustomColors.background,
+          color: isSelected ? Colors.grey[300]! : CustomColors.background,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(
