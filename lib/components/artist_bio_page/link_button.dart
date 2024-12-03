@@ -27,7 +27,10 @@ class LinkButton extends StatelessWidget {
           if (isSpotify) {
             final spotifyUri =
                 url.replaceAll('https://open.spotify.com/', 'spotify://');
-            await launchUrl(Uri.parse(spotifyUri));
+            // If the user doesn't have Spotify installed, open the web link
+            if (!await launchUrl(Uri.parse(spotifyUri))) {
+              launchUrl(Uri.parse(url));
+            }
           } else {
             await launchUrl(Uri.parse(url));
           }
