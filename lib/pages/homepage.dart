@@ -67,56 +67,61 @@ class _HomepageState extends State<Homepage> {
               const HomepageBanner(),
               SizedBox(height: sectionSpacing),
 
-              // Global Top Artists Section
-              const HeadingText(text: "Global Top Artists Today"),
-              const SizedBox(height: 15),
+              // Hot 100 Section
               ArtistContent(
-                artists: apiService.globalTopArtists,
-                apiFunction: apiService.getGlobalTopArtists,
-                isLoading: displayManager.isGlobalLoading,
+                title: apiService.hot100Title,
+                artists: apiService.hot100Artists,
+                apiFunction: apiService.getHot100Artists,
+                isLoading: displayManager.isHot100Loading,
                 toggleLoading: () =>
-                    displayManager.toggleLoading(category: 'global'),
-                isError: displayManager.isGlobalError,
+                    displayManager.toggleLoading(category: 'hot100'),
+                isError: displayManager.isHot100Error,
                 toggleError: () =>
-                    displayManager.toggleError(category: 'global'),
-                category: "global",
+                    displayManager.toggleError(category: 'hot100'),
+                category: "hot100",
+                sectionInfoTitle: apiService.hot100InfoTitle,
+                sectionInfoContent: apiService.hot100InfoContent,
+                playlistLink: apiService.hot100Link,
               ),
               SizedBox(height: sectionSpacing),
 
-              // Taiwan's Top Artists Section
-              const HeadingText(text: "Taiwan Top Artists Today"),
-              const SizedBox(height: 15),
+              // Top 50 Section
               ArtistContent(
-                artists: apiService.taiwanTopArtists,
-                apiFunction: apiService.getTaiwanTopArtists,
-                isLoading: displayManager.isTaiwanLoading,
+                title: apiService.top50Title,
+                artists: apiService.top50Artists,
+                apiFunction: apiService.getTop50Artists,
+                isLoading: displayManager.isTop50Loading,
                 toggleLoading: () =>
-                    displayManager.toggleLoading(category: 'taiwan'),
-                isError: displayManager.isTaiwanError,
+                    displayManager.toggleLoading(category: 'top50'),
+                isError: displayManager.isTop50Error,
                 toggleError: () =>
-                    displayManager.toggleError(category: 'taiwan'),
-                category: "taiwan",
+                    displayManager.toggleError(category: 'top50'),
+                category: "top50",
+                sectionInfoTitle: apiService.top50InfoTitle,
+                sectionInfoContent: apiService.top50InfoContent,
+                playlistLink: apiService.top50Link,
               ),
               SizedBox(height: sectionSpacing),
 
-              // USA's Top Artists Section
-              const HeadingText(text: "USA Top Artists Today"),
-              const SizedBox(height: 15),
+              // Artists With Most Streamed Songs Section
               ArtistContent(
-                artists: apiService.usaTopArtists,
-                apiFunction: apiService.getUSATopArtists,
-                isLoading: displayManager.isUSALoading,
+                title: apiService.mostStreamedTitle,
+                artists: apiService.mostStreamedArtists,
+                apiFunction: apiService.getMostStreamedArtists,
+                isLoading: displayManager.isMostStreamedLoading,
                 toggleLoading: () =>
-                    displayManager.toggleLoading(category: 'usa'),
-                isError: displayManager.isUSAError,
-                toggleError: () => displayManager.toggleError(category: 'usa'),
-                category: "usa",
+                    displayManager.toggleLoading(category: 'mostStreamed'),
+                isError: displayManager.isMostStreamedError,
+                toggleError: () =>
+                    displayManager.toggleError(category: 'mostStreamed'),
+                category: "mostStreamed",
+                sectionInfoTitle: apiService.mostStreamedInfoTitle,
+                sectionInfoContent: apiService.mostStreamedInfoContent,
+                playlistLink: apiService.mostStreamedLink,
               ),
               SizedBox(height: sectionSpacing),
 
               // Recommended Genres Section
-              const HeadingText(text: "Recommended Genres"),
-              const SizedBox(height: 15),
               const GenreSection(),
               SizedBox(height: sectionSpacing + 20),
               const SizedBox(
