@@ -1,17 +1,25 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:artist_profile/services/api_service.dart';
-import 'package:artist_profile/components/homepage/artist_placeholder.dart';
+import 'package:artist_profile/components/homepage/section_placeholder.dart';
 import 'package:artist_profile/components/common/loading_error.dart';
+import 'package:artist_profile/components/common/custom_alert_dialog.dart';
 import 'package:artist_profile/components/homepage/artist_row.dart';
+import 'package:artist_profile/components/homepage/heading_text.dart';
 import 'package:artist_profile/models/artist.dart';
 
 class ArtistContent extends StatefulWidget {
+  // Title for the section
+  final String? title;
+
   // Only genre section has selectedGenre
   final String? selectedGenre;
 
-  // For other sections like Global Top Artists
+  // For other sections like Most Appearances on Top 100
   // Genre section has artists provided by the genre, no need to provide artists list
   final List<Artist>? artists;
 
@@ -27,8 +35,16 @@ class ArtistContent extends StatefulWidget {
   // For Hero() tag parameter
   final String category;
 
+  // Section info
+  final String? sectionInfoTitle;
+  final String? sectionInfoContent;
+
+  // Spotify playlist link
+  final String? playlistLink;
+
   const ArtistContent({
     super.key,
+    this.title,
     this.selectedGenre,
     this.artists,
     required this.apiFunction,
@@ -37,6 +53,9 @@ class ArtistContent extends StatefulWidget {
     required this.isError,
     required this.toggleError,
     required this.category,
+    this.sectionInfoTitle,
+    this.sectionInfoContent,
+    this.playlistLink,
   });
 
   @override
@@ -72,7 +91,8 @@ class _ArtistContentState extends State<ArtistContent> {
   void _fetchArtists(Future<void> Function() apiFunction) {
     apiFunction().then((_) {
       widget.toggleLoading();
-    }).catchError((_) {
+    }).catchError((e) {
+      log(e.toString());
       widget.toggleError();
     });
   }
@@ -95,10 +115,11 @@ class _ArtistContentState extends State<ArtistContent> {
       children: [
         // If isLoading, display LoadingArtistCard
         if (widget.isLoading)
-          const ArtistPlaceholder()
+          const SectionPlaceholder()
         else if (_showError)
           // Display error message and retry button
           LoadingError(onRetry: onRetry)
+        // Recommendation section at the bottom of homepage
         else if (widget.selectedGenre != null)
           // Display artists based on selected genre
           AnimatedSwitcher(
@@ -115,12 +136,47 @@ class _ArtistContentState extends State<ArtistContent> {
               category: widget.category,
             ),
           )
-        else if (widget.artists != null)
+        // Charts section at the top of homepage
+        else if (widget.artists != null) ...[
+          Row(
+            children: [
+              HeadingText(text: widget.title ?? ""),
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: () {
+                  // Show section info dialog
+                  showCupertinoDialog(
+                    context: context,
+                    builder: (context) => CustomAlertDialog(
+                      title: widget.sectionInfoTitle ?? "",
+                      content:
+                          "${widget.sectionInfoContent ?? ""}\n\nVisit Spotify to explore the full chart.",
+                      width: 310,
+                      actionText: "Open Spotify",
+                      onActionTap: () async {
+                        final spotifyUri = widget.playlistLink!.replaceAll(
+                            'https://open.spotify.com/', 'spotify://');
+                        // If the user doesn't have Spotify installed, open the web link
+                        if (!await launchUrl(Uri.parse(spotifyUri))) {
+                          launchUrl(Uri.parse(widget.playlistLink!));
+                        }
+                      },
+                    ),
+                  );
+                },
+                child:
+                    Icon(Icons.info_outline, size: 20, color: Colors.grey[600]),
+              ),
+            ],
+          ),
+          const SizedBox(height: 15),
           // Display all artists
           ArtistRow(
             artists: widget.artists!,
             category: widget.category,
           )
+        ] else
+          const SizedBox.shrink()
       ],
     );
   }
