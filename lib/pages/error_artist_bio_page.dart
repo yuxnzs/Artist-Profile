@@ -24,6 +24,7 @@ class ErrorArtistBioPage extends StatelessWidget {
               onRetry: onRetry,
               isNoData: isNoData,
               artistName: artistName,
+              displayBackground: false,
             ),
           ),
           const ExitButton(),
