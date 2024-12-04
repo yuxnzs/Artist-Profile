@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:artist_profile/components/common/apple_dialog.dart';
+import 'package:artist_profile/components/common/custom_alert_dialog.dart';
 import 'package:country_flags/country_flags.dart';
 
 class CustomCountryFlag extends StatelessWidget {
@@ -21,9 +21,10 @@ class CustomCountryFlag extends StatelessWidget {
         showCupertinoDialog(
           context: context,
           builder: (BuildContext context) {
-            return AppleDialog(
+            return CustomAlertDialog(
               title: 'Active Country',
               content: activeCountry ?? '',
+              width: 200,
             );
           },
         );

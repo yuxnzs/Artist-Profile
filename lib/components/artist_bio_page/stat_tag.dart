@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:artist_profile/utility/custom_colors.dart';
-import 'package:artist_profile/components/common/apple_dialog.dart';
+import 'package:artist_profile/components/common/custom_alert_dialog.dart';
 
 class StatTag extends StatelessWidget {
   final String type;
@@ -19,9 +19,10 @@ class StatTag extends StatelessWidget {
     return GestureDetector(
       onTap: () => showCupertinoDialog(
         context: context,
-        builder: (context) => AppleDialog(
+        builder: (context) => CustomAlertDialog(
           title: type,
           content: label,
+          width: 200,
         ),
       ),
       child: Container(
