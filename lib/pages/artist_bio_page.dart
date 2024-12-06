@@ -186,6 +186,8 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
                   // Sheet style
                   Container(
                     width: double.infinity,
+                    // Clip ListView to prevent overflow
+                    clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: const BorderRadius.vertical(
