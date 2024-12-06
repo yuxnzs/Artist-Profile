@@ -15,6 +15,8 @@ class MainNavigation extends StatefulWidget {
 }
 
 class _MainNavigationState extends State<MainNavigation> {
+  bool isKeyboardVisible = false;
+
   List<PersistentTabConfig> _tabs() {
     return [
       PersistentTabConfig(
@@ -26,7 +28,7 @@ class _MainNavigationState extends State<MainNavigation> {
         ),
       ),
       PersistentTabConfig(
-        screen: const SearchPage(),
+        screen: SearchPage(isKeyboardVisible: isKeyboardVisible),
         item: ItemConfig(
           icon: const Icon(Icons.search),
           activeForegroundColor: Colors.blue,
@@ -39,6 +41,8 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     final displayManager = context.watch<DisplayManager>();
+    // SearchPage cannot detect the keyboard visibility, so need to check it here
+    isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
 
     return Stack(
       alignment: Alignment.bottomCenter,
