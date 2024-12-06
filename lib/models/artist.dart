@@ -6,6 +6,7 @@ class ArtistBio {
   final String? birthPlace;
   final String? wikiUrl;
   final String? musicBrainzUrl;
+  final bool hasRetriedWithEnglish;
 
   ArtistBio({
     this.description,
@@ -15,6 +16,7 @@ class ArtistBio {
     this.birthPlace,
     this.wikiUrl,
     this.musicBrainzUrl,
+    required this.hasRetriedWithEnglish,
   });
 
   factory ArtistBio.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class ArtistBio {
       birthPlace: json['birthPlace'],
       wikiUrl: json['wikiUrl'],
       musicBrainzUrl: json['musicbrainzUrl'],
+      hasRetriedWithEnglish: json['hasRetriedWithEnglish'],
     );
   }
 }
