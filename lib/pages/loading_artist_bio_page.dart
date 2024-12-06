@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:artist_profile/models/artist.dart';
 import 'package:artist_profile/utility/app_constants.dart';
@@ -7,6 +8,7 @@ import 'package:artist_profile/components/common/placeholder_block.dart';
 import 'package:artist_profile/components/artist_bio_page/birth_info_row.dart';
 import 'package:artist_profile/components/common/exit_button.dart';
 import 'package:artist_profile/components/artist_bio_page/artist_bio_image.dart';
+import 'package:artist_profile/managers/notification_manager.dart';
 
 class LoadingArtistBioPage extends StatefulWidget {
   final Artist? artist;
@@ -20,7 +22,10 @@ class LoadingArtistBioPage extends StatefulWidget {
 }
 
 class _LoadingArtistBioPageState extends State<LoadingArtistBioPage> {
+  final NotificationManager _notificationManager = NotificationManager();
+
   bool _isSheetVisible = false;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -30,7 +35,31 @@ class _LoadingArtistBioPageState extends State<LoadingArtistBioPage> {
       setState(() {
         _isSheetVisible = true;
       });
+      _startTimer();
     });
+  }
+
+  void _startTimer() {
+    _timer = Timer(const Duration(seconds: 5), () {
+      _showNotification();
+    });
+  }
+
+  void _showNotification() {
+    _notificationManager.showNotification(
+      context: context,
+      message:
+          "We're preparing your artist's information.\nJust a few more seconds...",
+      duration: 10,
+      isSlideHorizontal: false,
+    );
+  }
+
+  @override
+  void dispose() {
+    _notificationManager.hideNotificationBar();
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
