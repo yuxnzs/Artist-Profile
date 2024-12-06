@@ -70,7 +70,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
         // Fill the bottom margin
         AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 300),
           transform: Matrix4.translationValues(
               0, displayManager.hideNavigationBar ? 18 : 0, 0),
           child: Container(
