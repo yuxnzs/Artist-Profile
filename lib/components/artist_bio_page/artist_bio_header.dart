@@ -30,8 +30,7 @@ class ArtistBioHeader extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.only(
-        top: 3,
-        bottom: 4,
+        bottom: 1,
         left: AppConstants.artistBioPageMargin,
         right: AppConstants.artistBioPageMargin,
       ),

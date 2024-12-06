@@ -111,7 +111,7 @@ class BirthInfoBlock extends StatelessWidget {
                     if (isPlaceholder)
                       PlaceholderBlock(
                         width: 90,
-                        height: textPainter.size.height,
+                        height: textPainter.size.height - 2,
                         borderRadius: 5,
                         topMargin: 6,
                       )
