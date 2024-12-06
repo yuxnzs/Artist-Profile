@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:artist_profile/utility/app_constants.dart';
 import 'package:artist_profile/utility/custom_colors.dart';
 
-class SearchTextField extends StatelessWidget {
+class SearchTextField extends StatefulWidget {
   final TextEditingController controller;
   final Function(String) onSubmitted;
   final double width;
@@ -15,10 +15,23 @@ class SearchTextField extends StatelessWidget {
   });
 
   @override
+  State<SearchTextField> createState() => _SearchTextFieldState();
+}
+
+class _SearchTextFieldState extends State<SearchTextField> {
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      width: width,
+      width: widget.width,
       color: Colors.white,
       padding: const EdgeInsets.only(
         top: 5,
@@ -27,7 +40,8 @@ class SearchTextField extends StatelessWidget {
         right: AppConstants.searchPageMargin,
       ),
       child: TextField(
-        controller: controller,
+        focusNode: _focusNode,
+        controller: widget.controller,
         cursorColor: Colors.grey[600],
         cursorHeight: 18,
         decoration: InputDecoration(
@@ -50,7 +64,7 @@ class SearchTextField extends StatelessWidget {
           suffixIcon: AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             // Show the button if there is text in text field
-            opacity: controller.text.isNotEmpty ? 1.0 : 0.0,
+            opacity: widget.controller.text.isNotEmpty ? 1.0 : 0.0,
             child: IconButton(
               icon: const Icon(
                 Icons.cancel,
@@ -62,12 +76,14 @@ class SearchTextField extends StatelessWidget {
                 overlayColor: Colors.transparent,
               ),
               onPressed: () {
-                controller.clear();
+                widget.controller.clear();
+                // Open the keyboard
+                FocusScope.of(context).requestFocus(_focusNode);
               },
             ),
           ),
         ),
-        onSubmitted: onSubmitted,
+        onSubmitted: widget.onSubmitted,
       ),
     );
   }
