@@ -15,6 +15,7 @@ import 'package:artist_profile/components/common/exit_button.dart';
 import 'package:artist_profile/components/artist_bio_page/problem_button.dart';
 import 'package:artist_profile/pages/error_artist_bio_page.dart';
 import 'package:artist_profile/components/artist_bio_page/artist_bio_image.dart';
+import 'package:artist_profile/managers/notification_manager.dart';
 
 class ArtistBioPage extends StatefulWidget {
   final String artistName;
@@ -37,6 +38,7 @@ class ArtistBioPage extends StatefulWidget {
 }
 
 class _ArtistBioPageState extends State<ArtistBioPage> {
+  final NotificationManager _notificationManager = NotificationManager();
   late APIService apiService;
   late DisplayManager displayManager;
   late dynamic apiArtistData; // Type will be Artist, ArtistBio, or null
@@ -58,7 +60,10 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
 
   @override
   void dispose() {
-    // Toggle hideNavigationBar after widget tree is unlocked
+    // If there is a notification showing when the user leaves the page, remove it
+    _notificationManager.hideNotificationBar();
+
+    // Toggle hideNavigationBar and remove notification after widget tree is unlocked
     WidgetsBinding.instance.addPostFrameCallback((_) {
       displayManager.setHideNavigationBar(false);
     });
@@ -92,6 +97,16 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
             }
             // Set loading to false if API call is successful
             isLoading = false;
+
+            if (apiArtistData is Artist &&
+                apiArtistData.bio.hasRetriedWithEnglish) {
+              // Show notification bar
+              _showNotification();
+            } else if (apiArtistData is ArtistBio &&
+                apiArtistData.hasRetriedWithEnglish) {
+              // Show notification bar
+              _showNotification();
+            }
           });
         }
       }
@@ -105,6 +120,16 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
         });
       }
     }
+  }
+
+  void _showNotification() {
+    _notificationManager.showNotification(
+      context: context,
+      message:
+          "Artist not found in Chinese Wikipedia\nRetrieved data from English Wikipedia",
+      duration: 8,
+      isSlideHorizontal: false,
+    );
   }
 
   void _onRetry() {
