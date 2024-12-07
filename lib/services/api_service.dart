@@ -106,6 +106,26 @@ class APIService with ChangeNotifier {
     return [];
   }
 
+  void _addArtistData(
+    Map<String, dynamic> allArtistsData,
+    String key,
+    List<Artist> artistList, {
+    Function(String)? updateTitle,
+    Function(String)? updateInfoTitle,
+    Function(String)? updateInfoContent,
+    Function(String)? updateLink,
+  }) {
+    // Add data to lists based on JSON keys
+    if (allArtistsData.containsKey(key)) {
+      final data = allArtistsData[key];
+      artistList.addAll(_convertToArtistList(data['artists']));
+      updateTitle?.call(data['title']);
+      updateInfoTitle?.call(data['sectionTitle']);
+      updateInfoContent?.call(data['sectionContent']);
+      updateLink?.call(data['playlistLink']);
+    }
+  }
+
   // Get all artists for homepage
   Future<void> getAllHomepageArtists() async {
     try {
@@ -115,38 +135,27 @@ class APIService with ChangeNotifier {
       ); // (json) => json, gets the original JSON data without any changes
 
       if (allArtistsData != null) {
-        // Add data to lists based on JSON keys
-        if (allArtistsData.containsKey('hot100')) {
-          hot100Artists.addAll(
-              _convertToArtistList(allArtistsData['hot100']['artists']));
-          hot100Title = allArtistsData['hot100']['title'];
-          hot100InfoTitle = allArtistsData['hot100']['sectionTitle'];
-          hot100InfoContent = allArtistsData['hot100']['sectionContent'];
-          hot100Link = allArtistsData['hot100']['playlistLink'];
-        }
-        if (allArtistsData.containsKey('top50')) {
-          top50Artists
-              .addAll(_convertToArtistList(allArtistsData['top50']['artists']));
-          top50Title = allArtistsData['top50']['title'];
-          top50InfoTitle = allArtistsData['top50']['sectionTitle'];
-          top50InfoContent = allArtistsData['top50']['sectionContent'];
-          top50Link = allArtistsData['top50']['playlistLink'];
-        }
-        if (allArtistsData.containsKey('mostStreamed')) {
-          mostStreamedArtists.addAll(
-              _convertToArtistList(allArtistsData['mostStreamed']['artists']));
-          mostStreamedTitle = allArtistsData['mostStreamed']['title'];
-          mostStreamedInfoTitle =
-              allArtistsData['mostStreamed']['sectionTitle'];
-          mostStreamedInfoContent =
-              allArtistsData['mostStreamed']['sectionContent'];
-          mostStreamedLink = allArtistsData['mostStreamed']['playlistLink'];
-        }
-        if (allArtistsData.containsKey('recommendations')) {
-          recommendedArtists.addAll(_convertToArtistList(
-              allArtistsData['recommendations']['artists']));
-          recommendedTitle = allArtistsData['recommendations']['title'];
-        }
+        _addArtistData(allArtistsData, 'hot100', hot100Artists,
+            updateTitle: (title) => hot100Title = title,
+            updateInfoTitle: (infoTitle) => hot100InfoTitle = infoTitle,
+            updateInfoContent: (infoContent) => hot100InfoContent = infoContent,
+            updateLink: (link) => hot100Link = link);
+
+        _addArtistData(allArtistsData, 'top50', top50Artists,
+            updateTitle: (title) => top50Title = title,
+            updateInfoTitle: (infoTitle) => top50InfoTitle = infoTitle,
+            updateInfoContent: (infoContent) => top50InfoContent = infoContent,
+            updateLink: (link) => top50Link = link);
+
+        _addArtistData(allArtistsData, 'mostStreamed', mostStreamedArtists,
+            updateTitle: (title) => mostStreamedTitle = title,
+            updateInfoTitle: (infoTitle) => mostStreamedInfoTitle = infoTitle,
+            updateInfoContent: (infoContent) =>
+                mostStreamedInfoContent = infoContent,
+            updateLink: (link) => mostStreamedLink = link);
+
+        _addArtistData(allArtistsData, 'recommendations', recommendedArtists,
+            updateTitle: (title) => recommendedTitle = title);
 
         notifyListeners();
       }
