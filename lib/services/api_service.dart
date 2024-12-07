@@ -197,7 +197,7 @@ class APIService with ChangeNotifier {
 
   // Fetch recommended artists
   Future<void> getRecommendations() => fetchArtistsForCategory(
-        '/recommendations',
+        '/spotify-artists/recommendations',
         recommendedArtists,
         (title) => recommendedTitle = title,
         null,
