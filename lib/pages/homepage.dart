@@ -68,62 +68,79 @@ class _HomepageState extends State<Homepage> {
               SizedBox(height: sectionSpacing),
 
               // Hot 100 Section
-              ArtistContent(
-                title: apiService.hot100Title,
-                artists: apiService.hot100Artists,
-                apiFunction: apiService.getHot100Artists,
-                isLoading: displayManager.isHot100Loading,
-                toggleLoading: () =>
-                    displayManager.toggleLoading(category: 'hot100'),
-                isError: displayManager.isHot100Error,
-                toggleError: () =>
-                    displayManager.toggleError(category: 'hot100'),
-                category: "hot100",
-                sectionInfoTitle: apiService.hot100InfoTitle,
-                sectionInfoContent: apiService.hot100InfoContent,
-                playlistLink: apiService.hot100Link,
-              ),
-              SizedBox(height: sectionSpacing),
+              // Even if the artists are empty after fetching, loading placeholder will still be shown
+              if (displayManager.isHot100Loading ||
+                  displayManager.isHot100Error ||
+                  apiService.hot100Artists.isNotEmpty) ...[
+                ArtistContent(
+                  title: apiService.hot100Title,
+                  artists: apiService.hot100Artists,
+                  apiFunction: apiService.getHot100Artists,
+                  isLoading: displayManager.isHot100Loading,
+                  toggleLoading: () =>
+                      displayManager.toggleLoading(category: 'hot100'),
+                  isError: displayManager.isHot100Error,
+                  toggleError: () =>
+                      displayManager.toggleError(category: 'hot100'),
+                  category: "hot100",
+                  sectionInfoTitle: apiService.hot100InfoTitle,
+                  sectionInfoContent: apiService.hot100InfoContent,
+                  playlistLink: apiService.hot100Link,
+                ),
+                SizedBox(height: sectionSpacing),
+              ],
 
               // Top 50 Section
-              ArtistContent(
-                title: apiService.top50Title,
-                artists: apiService.top50Artists,
-                apiFunction: apiService.getTop50Artists,
-                isLoading: displayManager.isTop50Loading,
-                toggleLoading: () =>
-                    displayManager.toggleLoading(category: 'top50'),
-                isError: displayManager.isTop50Error,
-                toggleError: () =>
-                    displayManager.toggleError(category: 'top50'),
-                category: "top50",
-                sectionInfoTitle: apiService.top50InfoTitle,
-                sectionInfoContent: apiService.top50InfoContent,
-                playlistLink: apiService.top50Link,
-              ),
-              SizedBox(height: sectionSpacing),
+              if (displayManager.isTop50Loading ||
+                  displayManager.isTop50Error ||
+                  apiService.top50Artists.isNotEmpty) ...[
+                ArtistContent(
+                  title: apiService.top50Title,
+                  artists: apiService.top50Artists,
+                  apiFunction: apiService.getTop50Artists,
+                  isLoading: displayManager.isTop50Loading,
+                  toggleLoading: () =>
+                      displayManager.toggleLoading(category: 'top50'),
+                  isError: displayManager.isTop50Error,
+                  toggleError: () =>
+                      displayManager.toggleError(category: 'top50'),
+                  category: "top50",
+                  sectionInfoTitle: apiService.top50InfoTitle,
+                  sectionInfoContent: apiService.top50InfoContent,
+                  playlistLink: apiService.top50Link,
+                ),
+                SizedBox(height: sectionSpacing),
+              ],
 
               // Artists With Most Streamed Songs Section
-              ArtistContent(
-                title: apiService.mostStreamedTitle,
-                artists: apiService.mostStreamedArtists,
-                apiFunction: apiService.getMostStreamedArtists,
-                isLoading: displayManager.isMostStreamedLoading,
-                toggleLoading: () =>
-                    displayManager.toggleLoading(category: 'mostStreamed'),
-                isError: displayManager.isMostStreamedError,
-                toggleError: () =>
-                    displayManager.toggleError(category: 'mostStreamed'),
-                category: "mostStreamed",
-                sectionInfoTitle: apiService.mostStreamedInfoTitle,
-                sectionInfoContent: apiService.mostStreamedInfoContent,
-                playlistLink: apiService.mostStreamedLink,
-              ),
-              SizedBox(height: sectionSpacing),
+              if (displayManager.isMostStreamedLoading ||
+                  displayManager.isMostStreamedError ||
+                  apiService.mostStreamedArtists.isNotEmpty) ...[
+                ArtistContent(
+                  title: apiService.mostStreamedTitle,
+                  artists: apiService.mostStreamedArtists,
+                  apiFunction: apiService.getMostStreamedArtists,
+                  isLoading: displayManager.isMostStreamedLoading,
+                  toggleLoading: () =>
+                      displayManager.toggleLoading(category: 'mostStreamed'),
+                  isError: displayManager.isMostStreamedError,
+                  toggleError: () =>
+                      displayManager.toggleError(category: 'mostStreamed'),
+                  category: "mostStreamed",
+                  sectionInfoTitle: apiService.mostStreamedInfoTitle,
+                  sectionInfoContent: apiService.mostStreamedInfoContent,
+                  playlistLink: apiService.mostStreamedLink,
+                ),
+                SizedBox(height: sectionSpacing),
+              ],
 
               // Recommended Genres Section
-              const GenreSection(),
-              SizedBox(height: sectionSpacing + 20),
+              if (displayManager.isRecommendationsLoading ||
+                  displayManager.isRecommendationsError ||
+                  apiService.recommendedArtists.isNotEmpty) ...[
+                const GenreSection(),
+                SizedBox(height: sectionSpacing + 20),
+              ],
               const SizedBox(
                 height: AppConstants.bottomNavBarHeight + 5,
               ),
