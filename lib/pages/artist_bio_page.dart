@@ -73,6 +73,8 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
   // Fetch artist data from API
   void _fetchArtistData() async {
     dynamic data;
+    final startTime = DateTime.now();
+
     try {
       data = await apiService.getArtistData(
         artistName: widget.artistName,
@@ -82,11 +84,15 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
       if (mounted) {
         // If data is a Map and is empty, means no data returned from API
         if (data is Map && data.isEmpty) {
+          await _waitForMinimumTime(startTime);
+
           setState(() {
             isNoData = true;
             isLoading = false;
           });
         } else {
+          await _waitForMinimumTime(startTime);
+
           setState(() {
             if (widget.apiIncludeSpotifyInfo) {
               // If need Spotify info, set Artist as data type
@@ -111,6 +117,8 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
         }
       }
     } catch (e) {
+      await _waitForMinimumTime(startTime);
+
       log('$e');
       // Set loading to false and error to true if API call fails
       if (mounted) {
@@ -130,6 +138,17 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
       duration: 8,
       isSlideHorizontal: false,
     );
+  }
+
+  // Wait for 1.5 seconds before showing no data to prevent flickering
+  Future<void> _waitForMinimumTime(DateTime startTime) async {
+    const minDuration = Duration(milliseconds: 1500);
+    final elapsedTime = DateTime.now().difference(startTime);
+
+    // Wait for the remaining time
+    if (elapsedTime < minDuration) {
+      await Future.delayed(minDuration - elapsedTime);
+    }
   }
 
   void _onRetry() {
