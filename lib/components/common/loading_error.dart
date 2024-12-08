@@ -19,7 +19,7 @@ class LoadingError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 225, // Approximate height of SectionPlaceholder
+      height: 224, // Approximate height of SectionPlaceholder
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: AppConstants.globalMargin),
       decoration: BoxDecoration(
