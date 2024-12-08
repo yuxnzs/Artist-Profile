@@ -34,6 +34,7 @@ class ArtistBio {
 }
 
 class Artist {
+  final String id;
   final String name;
   final String? image;
   final double popularity;
@@ -43,6 +44,7 @@ class Artist {
   final ArtistBio? bio;
 
   Artist({
+    required this.id,
     required this.name,
     this.image,
     required this.popularity,
@@ -54,6 +56,7 @@ class Artist {
 
   factory Artist.fromJson(Map<String, dynamic> json) {
     return Artist(
+      id: json['id'],
       name: json['name'],
       image: json['image'],
       popularity: json['popularity'].toDouble(),
