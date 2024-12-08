@@ -163,7 +163,8 @@ class _SearchPageState extends State<SearchPage> with WidgetsBindingObserver {
               controller: _searchController,
               width: screenWidth,
               onSubmitted: (value) {
-                if (value.isNotEmpty) {
+                final trimmedArtistName = value.trim();
+                if (trimmedArtistName.isNotEmpty) {
                   if (canFetchBio) {
                     // If there is a notification showing, remove it first before navigating to the ArtistBioPage
                     _hideNotification();
@@ -173,7 +174,7 @@ class _SearchPageState extends State<SearchPage> with WidgetsBindingObserver {
                       context,
                       CupertinoPageRoute(
                         builder: (_) => ArtistBioPage(
-                          artistName: value,
+                          artistName: trimmedArtistName,
                           apiIncludeSpotifyInfo: true,
                           passedArtist: null,
                           category: null,
@@ -183,7 +184,7 @@ class _SearchPageState extends State<SearchPage> with WidgetsBindingObserver {
 
                     Future.delayed(const Duration(seconds: 1), () {
                       // Then add the search history to the database
-                      searchHistoryManager.addHistory(value);
+                      searchHistoryManager.addHistory(trimmedArtistName);
                       // Clear the search text field
                       _searchController.clear();
                     });
