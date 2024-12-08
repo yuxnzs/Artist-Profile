@@ -21,38 +21,41 @@ class LoadingArtistCard extends StatelessWidget {
         children: [
           // Artist Image
           const ArtistImagePlaceholder(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 11),
 
           // Artist Name
           ClipRRect(
-            borderRadius: BorderRadius.circular(2),
+            borderRadius: BorderRadius.circular(4),
             child: const SizedBox(
-              width: 80,
-              height: 16,
+              width: 85,
+              height: 18,
               child: LoadingPlaceholder(),
             ),
           ),
           const SizedBox(height: 9),
 
           // Followers
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.people,
-                size: 18,
-                color: Colors.grey,
-              ),
-              const SizedBox(width: 3),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(2),
-                child: const SizedBox(
-                  width: 39,
-                  height: 12,
-                  child: LoadingPlaceholder(),
+          Transform.translate(
+            offset: const Offset(0, -1),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.people,
+                  size: 18,
+                  color: Colors.grey,
                 ),
-              ),
-            ],
+                const SizedBox(width: 3),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(3),
+                  child: const SizedBox(
+                    width: 40,
+                    height: 12,
+                    child: LoadingPlaceholder(),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
