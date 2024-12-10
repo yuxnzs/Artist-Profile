@@ -42,23 +42,24 @@ class ExternalLinksSection extends StatelessWidget {
             textColor: Colors.green,
             isSpotify: true,
           ),
-          const SizedBox(height: 10),
           if (artistData.musicBrainzUrl != null) ...[
+            const SizedBox(height: 10),
             LinkButton(
               url: artistData.musicBrainzUrl ?? "",
               text: 'Open in MusicBrainz',
               backgroundColor: Colors.blue[500]!,
               textColor: Colors.blue,
-            ),
-            const SizedBox(height: 10),
+            )
           ],
-          if (artistData.wikiUrl != null)
+          if (artistData.wikiUrl != null) ...[
+            const SizedBox(height: 10),
             LinkButton(
               url: artistData.wikiUrl ?? "",
               text: 'Open in Wikipedia',
               backgroundColor: Colors.grey[500]!,
               textColor: Colors.grey[800]!,
             )
+          ]
         ],
       ),
     );
