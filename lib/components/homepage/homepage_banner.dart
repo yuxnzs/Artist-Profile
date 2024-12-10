@@ -58,7 +58,7 @@ class HomepageBanner extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    globalTabController.jumpToTab(1);
+                    globalTabController.tabController.jumpToTab(1);
                   },
                   child: const Text("Explore"),
                 ),
