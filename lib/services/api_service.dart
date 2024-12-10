@@ -4,9 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:artist_profile/models/artist.dart';
+import 'package:artist_profile/managers/display_manager.dart';
+import 'package:artist_profile/managers/cache_manager.dart';
+import 'package:artist_profile/models/artist_hive.dart';
+import 'package:artist_profile/utility/app_constants.dart';
 
 class APIService with ChangeNotifier {
   final String baseUrl = dotenv.get('BASE_URL');
+  final DisplayManager displayManager;
+  final cacheManager = CacheManager('homepageArtistsCache');
+
+  // For main to pass displayManager with context
+  APIService(this.displayManager);
+
   List<Artist> hot100Artists = [];
   List<Artist> top50Artists = [];
   List<Artist> mostStreamedArtists = [];
@@ -101,7 +111,12 @@ class APIService with ChangeNotifier {
   List<Artist> _convertToArtistList(dynamic data) {
     if (data is List) {
       // Convert each JSON object to an Artist object
-      return data.map((item) => Artist.fromJson(item)).toList();
+      return data.map((item) {
+        // Cached JSON data is Map<dynamic, dynamic>
+        // Convert it to Map<String, dynamic> for Artist.fromJson
+        final mapItem = Map<String, dynamic>.from(item);
+        return Artist.fromJson(mapItem);
+      }).toList();
     }
     return [];
   }
@@ -129,36 +144,51 @@ class APIService with ChangeNotifier {
   // Get all artists for homepage
   Future<void> getAllHomepageArtists() async {
     try {
-      final allArtistsData = await _fetchArtistsData<Map<String, dynamic>>(
-        '/spotify-artists/homepage',
-        (json) => json,
-      ); // (json) => json, gets the original JSON data without any changes
+      Map<String, dynamic> allArtistsData;
+      final cachedData = await cacheManager.getCache<Map<String, dynamic>>(
+        key: 'homepageArtists',
+        isMap: true,
+      );
 
-      if (allArtistsData != null) {
-        _addArtistData(allArtistsData, 'hot100', hot100Artists,
-            updateTitle: (title) => hot100Title = title,
-            updateInfoTitle: (infoTitle) => hot100InfoTitle = infoTitle,
-            updateInfoContent: (infoContent) => hot100InfoContent = infoContent,
-            updateLink: (link) => hot100Link = link);
+      if (cachedData != null) {
+        allArtistsData = cachedData;
+      } else {
+        allArtistsData = await _fetchArtistsData<Map<String, dynamic>>(
+          '/spotify-artists/homepage',
+          (json) => json,
+        ); // (json) => json, gets the original JSON data without any changes
 
-        _addArtistData(allArtistsData, 'top50', top50Artists,
-            updateTitle: (title) => top50Title = title,
-            updateInfoTitle: (infoTitle) => top50InfoTitle = infoTitle,
-            updateInfoContent: (infoContent) => top50InfoContent = infoContent,
-            updateLink: (link) => top50Link = link);
-
-        _addArtistData(allArtistsData, 'mostStreamed', mostStreamedArtists,
-            updateTitle: (title) => mostStreamedTitle = title,
-            updateInfoTitle: (infoTitle) => mostStreamedInfoTitle = infoTitle,
-            updateInfoContent: (infoContent) =>
-                mostStreamedInfoContent = infoContent,
-            updateLink: (link) => mostStreamedLink = link);
-
-        _addArtistData(allArtistsData, 'recommendations', recommendedArtists,
-            updateTitle: (title) => recommendedTitle = title);
-
-        notifyListeners();
+        // Cache the data if it's not cached
+        await cacheManager.saveCache<Map<String, dynamic>>(
+          key: 'homepageArtists',
+          data: allArtistsData,
+          cacheDuration: AppConstants.cacheDuration,
+        );
       }
+
+      _addArtistData(allArtistsData, 'hot100', hot100Artists,
+          updateTitle: (title) => hot100Title = title,
+          updateInfoTitle: (infoTitle) => hot100InfoTitle = infoTitle,
+          updateInfoContent: (infoContent) => hot100InfoContent = infoContent,
+          updateLink: (link) => hot100Link = link);
+
+      _addArtistData(allArtistsData, 'top50', top50Artists,
+          updateTitle: (title) => top50Title = title,
+          updateInfoTitle: (infoTitle) => top50InfoTitle = infoTitle,
+          updateInfoContent: (infoContent) => top50InfoContent = infoContent,
+          updateLink: (link) => top50Link = link);
+
+      _addArtistData(allArtistsData, 'mostStreamed', mostStreamedArtists,
+          updateTitle: (title) => mostStreamedTitle = title,
+          updateInfoTitle: (infoTitle) => mostStreamedInfoTitle = infoTitle,
+          updateInfoContent: (infoContent) =>
+              mostStreamedInfoContent = infoContent,
+          updateLink: (link) => mostStreamedLink = link);
+
+      _addArtistData(allArtistsData, 'recommendations', recommendedArtists,
+          updateTitle: (title) => recommendedTitle = title);
+
+      notifyListeners();
     } catch (e) {
       throw Exception('Error fetching homepage artists: $e');
     }
@@ -205,31 +235,127 @@ class APIService with ChangeNotifier {
         null,
       );
 
+  // For SearchPage: fetch artist ID by user input
+  Future<String?> _fetchArtistIdByName(String artistName) async {
+    try {
+      final cachedData = await cacheManager.getCache<String>(
+        key: artistName,
+      );
+
+      if (cachedData != null) {
+        if (cachedData == "NULL") {
+          return null;
+        }
+        return cachedData;
+      } else {
+        final response =
+            await http.get(Uri.parse('$baseUrl/get-artist-id/$artistName'));
+
+        if (response.statusCode == 200) {
+          final id = response.body;
+          if (id.isNotEmpty) {
+            await cacheManager.saveCache<String>(
+              key: artistName,
+              data: id,
+              cacheDuration: AppConstants.cacheDuration,
+            );
+            return id;
+          }
+          // If no id, save null to cache to avoid future calls
+          await cacheManager.saveCache(
+            key: artistName,
+            data:
+                "NULL", // Use string NULL to avoid mix-up with actual null checking
+            cacheDuration: AppConstants.cacheDuration,
+          );
+          return null;
+        } else {
+          throw Exception(
+              'Failed to load data from /get-artist-id/$artistName. Status code: ${response.statusCode}');
+        }
+      }
+    } catch (e) {
+      log('Error fetching artist ID: $e');
+      return null;
+    }
+  }
+
   // Fetch artist data for ArtistBio page
   Future<dynamic> getArtistData({
-    required String artistName,
+    Artist? passedArtist, // From Homepage, to fetch artist data directly
+    required String artistName, // From SearchPage, to fetch artist ID
     required bool includeSpotifyInfo,
   }) async {
     try {
+      String? fetchedArtistId;
+      // If includeSpotifyInfo, is from SearchPage, need to fetch artist ID
       if (includeSpotifyInfo) {
-        // includeSpotifyInfo is true, return Artist
-        final Artist? artist = await _fetchArtistsData<Artist>(
-          '/artist-bio/$artistName?includeSpotifyInfo=$includeSpotifyInfo',
-          Artist.fromJson,
-        );
-        // Return an empty map to ArtistBioPage to display error message
-        if (artist == null) {
+        fetchedArtistId = await _fetchArtistIdByName(artistName);
+        if (fetchedArtistId == null) {
+          // Return an empty map to ArtistBioPage to display error message
           return {};
         }
-        return artist;
+      }
+
+      // Get cached data
+      final cachedData = await cacheManager.getCache<ArtistHive>(
+        // If includeSpotifyInfo (from SearchPage), use fetchedArtistId
+        // If not (from Homepage), use passedArtistId
+        key: includeSpotifyInfo
+            ? "$fetchedArtistId-${displayManager.wikiLanguage}"
+            : "${passedArtist!.id}-${displayManager.wikiLanguage}",
+        // passedArtistId is not null if is from Homepage (includeSpotifyInfo is false)
+      );
+
+      if (cachedData != null) {
+        if (includeSpotifyInfo) {
+          return Artist.fromHiveModel(cachedData);
+        } else {
+          return ArtistBio.fromHiveModel(cachedData.bio!);
+        }
       } else {
-        // includeSpotifyInfo is false, return ArtistBio
-        final ArtistBio? artistBio = await _fetchArtistsData<ArtistBio>(
-          '/artist-bio/$artistName?includeSpotifyInfo=$includeSpotifyInfo',
-          // Handle nested JSON, extract bio
-          (json) => ArtistBio.fromJson(json['bio']),
-        );
-        return artistBio;
+        if (includeSpotifyInfo) {
+          // For SearchPage: includeSpotifyInfo is true, return Artist
+          final Artist artist = await _fetchArtistsData<Artist>(
+            '/artist-bio/$fetchedArtistId?includeSpotifyInfo=$includeSpotifyInfo&wikiLanguage=${displayManager.wikiLanguage}',
+            Artist.fromJson,
+          );
+
+          await cacheManager.saveCache<ArtistHive>(
+            key: "$fetchedArtistId-${displayManager.wikiLanguage}",
+            data: artist.toHiveModel(),
+            cacheDuration: AppConstants.cacheDuration,
+          );
+
+          return artist;
+        } else {
+          // For Homepage: includeSpotifyInfo is false, return ArtistBio
+          final ArtistBio artistBio = await _fetchArtistsData<ArtistBio>(
+            '/artist-bio/${passedArtist!.id}?name=$artistName&includeSpotifyInfo=$includeSpotifyInfo&wikiLanguage=${displayManager.wikiLanguage}',
+            // Handle nested JSON, extract bio
+            (json) => ArtistBio.fromJson(json['bio']),
+          );
+
+          // Combine Artist from Homepage and ArtistBio from API to a Artist object
+          Artist combinedArtist = Artist(
+            id: passedArtist.id,
+            name: passedArtist.name,
+            image: passedArtist.image,
+            popularity: passedArtist.popularity,
+            followers: passedArtist.followers,
+            genres: passedArtist.genres,
+            spotifyUrl: passedArtist.spotifyUrl,
+            bio: artistBio,
+          );
+
+          await cacheManager.saveCache<ArtistHive>(
+            key: "${passedArtist.id}-${displayManager.wikiLanguage}",
+            data: combinedArtist.toHiveModel(),
+            cacheDuration: AppConstants.cacheDuration,
+          );
+
+          return artistBio;
+        }
       }
     } catch (e) {
       throw Exception('$e');
