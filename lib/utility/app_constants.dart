@@ -3,4 +3,5 @@ class AppConstants {
   static const double artistBioPageMargin = 20;
   static const double bottomNavBarHeight = 60;
   static const double searchPageMargin = 18;
+  static const Duration cacheDuration = Duration(hours: 12);
 }
