@@ -1,3 +1,6 @@
+import 'package:artist_profile/models/artist_bio_hive.dart';
+import 'package:artist_profile/models/artist_hive.dart';
+
 class ArtistBio {
   final String? description;
   final String? birthday;
@@ -29,6 +32,34 @@ class ArtistBio {
       wikiUrl: json['wikiUrl'],
       musicBrainzUrl: json['musicbrainzUrl'],
       hasRetriedWithEnglish: json['hasRetriedWithEnglish'],
+    );
+  }
+
+  // Convert ArtistBio to ArtistBioHive
+  ArtistBioHive toHiveModel() {
+    return ArtistBioHive(
+      description: description,
+      birthday: birthday,
+      activeCountry: activeCountry,
+      countryCode: countryCode,
+      birthPlace: birthPlace,
+      wikiUrl: wikiUrl,
+      musicBrainzUrl: musicBrainzUrl,
+      hasRetriedWithEnglish: hasRetriedWithEnglish,
+    );
+  }
+
+  // Convert ArtistBioHive to ArtistBio
+  factory ArtistBio.fromHiveModel(ArtistBioHive hiveModel) {
+    return ArtistBio(
+      description: hiveModel.description,
+      birthday: hiveModel.birthday,
+      activeCountry: hiveModel.activeCountry,
+      countryCode: hiveModel.countryCode,
+      birthPlace: hiveModel.birthPlace,
+      wikiUrl: hiveModel.wikiUrl,
+      musicBrainzUrl: hiveModel.musicBrainzUrl,
+      hasRetriedWithEnglish: hiveModel.hasRetriedWithEnglish,
     );
   }
 }
@@ -64,6 +95,36 @@ class Artist {
       genres: List<String>.from(json['genres']),
       spotifyUrl: json['spotifyUrl'],
       bio: json['bio'] != null ? ArtistBio.fromJson(json['bio']) : null,
+    );
+  }
+
+  // Convert Artist to ArtistHive
+  ArtistHive toHiveModel() {
+    return ArtistHive(
+      id: id,
+      name: name,
+      image: image,
+      popularity: popularity,
+      followers: followers,
+      genres: genres,
+      spotifyUrl: spotifyUrl,
+      bio: bio?.toHiveModel(),
+    );
+  }
+
+  // Convert ArtistHive to Artist
+  factory Artist.fromHiveModel(ArtistHive hiveModel) {
+    return Artist(
+      id: hiveModel.id,
+      name: hiveModel.name,
+      image: hiveModel.image,
+      popularity: hiveModel.popularity,
+      followers: hiveModel.followers,
+      genres: hiveModel.genres,
+      spotifyUrl: hiveModel.spotifyUrl,
+      bio: hiveModel.bio != null
+          ? ArtistBio.fromHiveModel(hiveModel.bio!)
+          : null,
     );
   }
 }
