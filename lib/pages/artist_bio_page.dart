@@ -77,6 +77,9 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
 
     try {
       data = await apiService.getArtistData(
+        // For Homepage
+        passedArtist: widget.passedArtist,
+        // For SearchPage; passed from both Homepage and SearchPage, but not used for Homepage
         artistName: widget.artistName,
         includeSpotifyInfo: widget.apiIncludeSpotifyInfo,
       );
