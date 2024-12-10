@@ -5,6 +5,7 @@ import 'package:artist_profile/utility/global_tab_controller.dart';
 import 'package:artist_profile/utility/app_constants.dart';
 import 'package:artist_profile/pages/homepage.dart';
 import 'package:artist_profile/pages/search_page.dart';
+import 'package:artist_profile/pages/setting_page.dart';
 import 'package:artist_profile/managers/display_manager.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -17,12 +18,30 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   bool isKeyboardVisible = false;
 
+  @override
+  void initState() {
+    super.initState();
+    globalTabController.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    globalTabController.dispose();
+    super.dispose();
+  }
+
   List<PersistentTabConfig> _tabs() {
     return [
       PersistentTabConfig(
         screen: const Homepage(),
         item: ItemConfig(
-          icon: const Icon(Icons.home),
+          icon: Icon(globalTabController.index == 0
+              ? Icons.home
+              : Icons.home_outlined),
           activeForegroundColor: Colors.blue,
           inactiveForegroundColor: Colors.grey,
         ),
@@ -30,7 +49,18 @@ class _MainNavigationState extends State<MainNavigation> {
       PersistentTabConfig(
         screen: SearchPage(isKeyboardVisible: isKeyboardVisible),
         item: ItemConfig(
-          icon: const Icon(Icons.search),
+          icon: const Icon(
+              Icons.search), // Search icon doesn't have a filled version
+          activeForegroundColor: Colors.blue,
+          inactiveForegroundColor: Colors.grey,
+        ),
+      ),
+      PersistentTabConfig(
+        screen: const SettingPage(),
+        item: ItemConfig(
+          icon: Icon(globalTabController.index == 2
+              ? Icons.settings
+              : Icons.settings_outlined),
           activeForegroundColor: Colors.blue,
           inactiveForegroundColor: Colors.grey,
         ),
@@ -51,13 +81,13 @@ class _MainNavigationState extends State<MainNavigation> {
           // Temporarily disable the navigation bar interaction while animating to hide
           absorbing: displayManager.isNavBarDisabled,
           child: PersistentTabView(
-            controller: globalTabController,
+            controller: globalTabController.tabController,
             tabs: _tabs(),
             navBarBuilder: (navBarConfig) => Style4BottomNavBar(
               navBarConfig: navBarConfig,
               navBarDecoration: const NavBarDecoration(
                 color: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: 5),
               ),
             ),
             navBarOverlap: const NavBarOverlap.full(),
