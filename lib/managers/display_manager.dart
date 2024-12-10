@@ -16,6 +16,10 @@ class DisplayManager with ChangeNotifier {
   bool hideNavigationBar = false;
   bool isNavBarDisabled = false;
 
+  // Used for API calls and language setting display
+  String _wikiLanguage = 'en';
+  String get wikiLanguage => _wikiLanguage;
+
   void toggleLoading({required String category}) {
     switch (category) {
       case 'hot100':
@@ -83,6 +87,11 @@ class DisplayManager with ChangeNotifier {
       });
     }
 
+    notifyListeners();
+  }
+
+  void setWikiLanguage(String language) {
+    _wikiLanguage = language;
     notifyListeners();
   }
 }
