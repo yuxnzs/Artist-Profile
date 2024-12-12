@@ -4,18 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:artist_profile/models/artist.dart';
-import 'package:artist_profile/managers/display_manager.dart';
+import 'package:artist_profile/managers/wiki_language_manager.dart';
 import 'package:artist_profile/managers/cache_manager.dart';
 import 'package:artist_profile/models/artist_hive.dart';
 import 'package:artist_profile/utility/app_constants.dart';
 
 class APIService with ChangeNotifier {
   final String baseUrl = dotenv.get('BASE_URL');
-  final DisplayManager displayManager;
+  final WikiLanguageManager wikiLanguageManager;
   final cacheManager = CacheManager('homepageArtistsCache');
 
   // For main to pass displayManager with context
-  APIService(this.displayManager);
+  APIService(this.wikiLanguageManager);
 
   List<Artist> hot100Artists = [];
   List<Artist> top50Artists = [];
@@ -302,8 +302,8 @@ class APIService with ChangeNotifier {
         // If includeSpotifyInfo (from SearchPage), use fetchedArtistId
         // If not (from Homepage), use passedArtistId
         key: includeSpotifyInfo
-            ? "$fetchedArtistId-${displayManager.wikiLanguage}"
-            : "${passedArtist!.id}-${displayManager.wikiLanguage}",
+            ? "$fetchedArtistId-${wikiLanguageManager.wikiLanguage}"
+            : "${passedArtist!.id}-${wikiLanguageManager.wikiLanguage}",
         // passedArtistId is not null if is from Homepage (includeSpotifyInfo is false)
       );
 
@@ -317,12 +317,12 @@ class APIService with ChangeNotifier {
         if (includeSpotifyInfo) {
           // For SearchPage: includeSpotifyInfo is true, return Artist
           final Artist artist = await _fetchArtistsData<Artist>(
-            '/artist-bio/$fetchedArtistId?includeSpotifyInfo=$includeSpotifyInfo&wikiLanguage=${displayManager.wikiLanguage}',
+            '/artist-bio/$fetchedArtistId?includeSpotifyInfo=$includeSpotifyInfo&wikiLanguage=${wikiLanguageManager.wikiLanguage}',
             Artist.fromJson,
           );
 
           await cacheManager.saveCache<ArtistHive>(
-            key: "$fetchedArtistId-${displayManager.wikiLanguage}",
+            key: "$fetchedArtistId-${wikiLanguageManager.wikiLanguage}",
             data: artist.toHiveModel(),
             cacheDuration: AppConstants.cacheDuration,
           );
@@ -331,7 +331,7 @@ class APIService with ChangeNotifier {
         } else {
           // For Homepage: includeSpotifyInfo is false, return ArtistBio
           final ArtistBio artistBio = await _fetchArtistsData<ArtistBio>(
-            '/artist-bio/${passedArtist!.id}?name=$artistName&includeSpotifyInfo=$includeSpotifyInfo&wikiLanguage=${displayManager.wikiLanguage}',
+            '/artist-bio/${passedArtist!.id}?name=$artistName&includeSpotifyInfo=$includeSpotifyInfo&wikiLanguage=${wikiLanguageManager.wikiLanguage}',
             // Handle nested JSON, extract bio
             (json) => ArtistBio.fromJson(json['bio']),
           );
@@ -349,7 +349,7 @@ class APIService with ChangeNotifier {
           );
 
           await cacheManager.saveCache<ArtistHive>(
-            key: "${passedArtist.id}-${displayManager.wikiLanguage}",
+            key: "${passedArtist.id}-${wikiLanguageManager.wikiLanguage}",
             data: combinedArtist.toHiveModel(),
             cacheDuration: AppConstants.cacheDuration,
           );
