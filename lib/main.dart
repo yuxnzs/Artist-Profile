@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:artist_profile/services/api_service.dart';
 import 'package:artist_profile/managers/display_manager.dart';
+import 'package:artist_profile/managers/wiki_language_manager.dart';
 import 'package:artist_profile/pages/main_navigation.dart';
 import 'package:artist_profile/managers/search_history_manager.dart';
 import 'package:artist_profile/models/artist_hive.dart';
@@ -26,8 +27,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DisplayManager()),
+        ChangeNotifierProvider(create: (context) => WikiLanguageManager()),
         ChangeNotifierProvider(
-            create: (context) => APIService(context.read<DisplayManager>())),
+            create: (context) =>
+                APIService(context.read<WikiLanguageManager>())),
         ChangeNotifierProvider(
             // Fetch history when the app starts
             create: (context) => SearchHistoryManager()..fetchHistory()),
