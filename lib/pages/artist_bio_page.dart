@@ -288,7 +288,7 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
                               ),
                               SizedBox(width: 5),
                               Text(
-                                "Data may be inaccurate. Click here to learn more.",
+                                "Data may be inaccurate. Check important info.",
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.grey,
