@@ -171,7 +171,7 @@ class _LoadingArtistBioPageState extends State<LoadingArtistBioPage> {
                           birthPlace: null,
                           isPlaceholder: true,
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 13.5),
 
                         // Bio
                         PlaceholderBlock(

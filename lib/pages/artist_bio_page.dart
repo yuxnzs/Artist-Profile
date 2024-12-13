@@ -267,7 +267,7 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
                               ? apiArtistData.bio?.birthPlace
                               : apiArtistData?.birthPlace,
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 13.5),
 
                         // Bio
                         BioText(
