@@ -38,6 +38,7 @@ class ArtistBioPage extends StatefulWidget {
 }
 
 class _ArtistBioPageState extends State<ArtistBioPage> {
+  final ScrollController _listViewController = ScrollController();
   final NotificationManager _notificationManager = NotificationManager();
   late APIService apiService;
   late DisplayManager displayManager;
@@ -202,7 +203,7 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
             minChildSize: (screenHeight - 380) / screenHeight,
             // Subtract top safe area from max size
             maxChildSize: 1.0 - (topSafeArea / screenHeight),
-            builder: (BuildContext context, ScrollController scrollController) {
+            builder: (BuildContext context, ScrollController sheetController) {
               return Stack(
                 children: [
                   // Sheet style
@@ -226,6 +227,7 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
 
                     // Sheet content
                     child: ListView(
+                      controller: _listViewController,
                       padding: EdgeInsets.zero,
                       children: [
                         // Reserve space for drag indicator
@@ -322,7 +324,10 @@ class _ArtistBioPageState extends State<ArtistBioPage> {
                   ),
 
                   // Drag indicator on the top of the sheet
-                  DragIndicator(scrollController: scrollController),
+                  DragIndicator(
+                    sheetController: sheetController,
+                    listViewController: _listViewController,
+                  ),
                 ],
               );
             },
