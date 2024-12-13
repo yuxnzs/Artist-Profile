@@ -221,7 +221,7 @@ class _LoadingArtistBioPageState extends State<LoadingArtistBioPage> {
                   ),
 
                   // Drag indicator on the top of the sheet
-                  const DragIndicator(scrollController: null),
+                  const DragIndicator(),
                 ],
               ),
             ),
