@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class DragIndicator extends StatelessWidget {
-  final ScrollController? scrollController;
+  final ScrollController? sheetController;
+  final ScrollController? listViewController;
 
   const DragIndicator({
     super.key,
-    required this.scrollController,
+    this.sheetController,
+    this.listViewController,
   });
 
   @override
@@ -41,14 +43,23 @@ class DragIndicator extends StatelessWidget {
           ),
 
           // Invisible SingleChildScrollView to control parent's DraggableScrollableSheet
-          if (scrollController != null)
+          if (sheetController != null && listViewController != null)
             SingleChildScrollView(
-              controller: scrollController,
-              child: Container(
-                width: double.infinity,
-                height: 25,
-                color: Colors.transparent,
-                // drag indicator
+              controller: sheetController,
+              child: GestureDetector(
+                onTap: () {
+                  listViewController!.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeOut,
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 25,
+                  color: Colors.transparent,
+                  // drag indicator
+                ),
               ),
             ),
         ],
