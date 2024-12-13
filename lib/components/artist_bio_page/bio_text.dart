@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:artist_profile/managers/wiki_language_manager.dart';
 import 'package:artist_profile/utility/app_constants.dart';
 
 class BioText extends StatelessWidget {
@@ -10,14 +8,11 @@ class BioText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final wikiLanguageManager = context.read<WikiLanguageManager>();
-
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: AppConstants.artistBioPageMargin),
       child: Text(
-        bio ??
-            "No relevant bio found in ${wikiLanguageManager.wikiLanguage == "en" ? "English" : "中文"} Wikipedia",
+        bio ?? "No relevant bio found in Wikipedia",
         style: TextStyle(
           height: 1.8,
           fontSize: 15,
