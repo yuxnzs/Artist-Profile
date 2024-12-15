@@ -90,7 +90,7 @@ class _LoadingArtistBioPageState extends State<LoadingArtistBioPage> {
             // Sheet for artist bio
             // Sheet animation to avoid image on top of the sheet at the beginning
             AnimatedPositioned(
-              duration: const Duration(milliseconds: 550),
+              duration: const Duration(milliseconds: 600),
               curve: Curves.easeInOut,
               // Screen size for bottom of the screen
               top: _isSheetVisible ? 355 : MediaQuery.of(context).size.height,
