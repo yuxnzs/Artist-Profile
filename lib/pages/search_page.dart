@@ -88,6 +88,7 @@ class _SearchPageState extends State<SearchPage> with WidgetsBindingObserver {
                     ListView.builder(
                       // Height is determined by the content
                       shrinkWrap: true,
+                      primary: false,
                       // Disable internal scrolling
                       physics: const NeverScrollableScrollPhysics(),
                       // Only render 20 items
